@@ -3637,10 +3637,11 @@
         <message id="229" name="LICENSE_STATUS">
             <description></description>
             <field type="uint8_t" name="license_type">See enum LICENSE_TYPE</field>
-            <field type="uint32_t" name="build_date_utc"></field>
-            <field type="uint32_t" name="end_date_utc"></field>
-            <field type="uint8_t[12]" name="uid"></field>
-            <field type="uint8_t[16]" name="reserve"></field>
+            <field type="uint32_t" name="time_utc">Current UTC, 0 if not available</field>
+            <field type="uint32_t" name="build_time_utc">Firmware build time UTC</field>
+            <field type="uint32_t" name="end_time_utc">License expiration time, 0 if unlimited</field>
+            <field type="uint8_t[12]" name="uid">Board UID</field>
+            <field type="uint8_t[16]" name="reserve">Reserve</field>
         </message>
 
         <!-- MESSAGE IDs 180 - 229: Space for custom messages in individual projectname_messages.xml files -->
