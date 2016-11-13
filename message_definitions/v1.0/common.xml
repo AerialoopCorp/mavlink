@@ -2380,6 +2380,27 @@
                   <description>Static fixed, typically used for base stations</description>
               </entry>
           </enum>
+          <enum name="LICENSE_TYPE">
+              <description></description>
+              <entry value="0" name="NO_LICENSING">
+                  <description></description>
+              </entry>
+              <entry value="1" name="CHECKING">
+                  <description></description>
+              </entry>
+              <entry value="2" name="UNLICENSED">
+                  <description></description>
+              </entry>
+              <entry value="3" name="TRIAL">
+                  <description></description>
+              </entry>
+              <entry value="4" name="VALID">
+                  <description></description>
+              </entry>
+              <entry value="5" name="EXPIRED">
+                  <description></description>
+              </entry>
+          </enum>
      </enums>
      <messages>
           <message id="0" name="HEARTBEAT">
@@ -3611,6 +3632,15 @@
             <field type="float" name="distance">Distance to the target from the vehicle in meters</field>
             <field type="float" name="size_x">Size in radians of target along x-axis</field>
             <field type="float" name="size_y">Size in radians of target along y-axis</field>
+        </message>
+
+        <message id="229" name="LICENSE_STATUS">
+            <description></description>
+            <field type="uint8_t" name="license_type">See enum LICENSE_TYPE</field>
+            <field type="uint32_t" name="build_date_utc"></field>
+            <field type="uint32_t" name="end_date_utc"></field>
+            <field type="uint8_t[12]" name="uid"></field>
+            <field type="uint8_t[16]" name="reserve"></field>
         </message>
 
         <!-- MESSAGE IDs 180 - 229: Space for custom messages in individual projectname_messages.xml files -->
