@@ -3634,6 +3634,13 @@
             <field type="float" name="size_y">Size in radians of target along y-axis</field>
         </message>
 
+        <message id="228" name="MISSION_CHECK">
+             <description>This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of MISSIONs.</description>
+             <field type="uint8_t" name="target_system">System ID</field>
+             <field type="uint8_t" name="target_component">Component ID</field>
+             <field type="uint16_t" name="count">Number of mission items in the sequence</field>
+             <field type="uint32_t" name="crc">CRC over full mission. Primarily serves as a version check.</field>
+        </message>
         <message id="229" name="LICENSE_STATUS">
             <description></description>
             <field type="uint8_t" name="license_type">See enum LICENSE_TYPE</field>
