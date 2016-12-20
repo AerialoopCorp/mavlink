@@ -748,7 +748,7 @@
                </entry>
                <entry value="84" name="MAV_CMD_NAV_VTOL_TAKEOFF">
                     <description>Takeoff from ground using VTOL mode</description>
-                    <param index="1">Empty</param>
+                    <param index="1">0: use heading to next waypoint (or this one if it's far away) for transition, 1: use heading depending on weather-vaning for transition</param>
                     <param index="2">Empty</param>
                     <param index="3">Empty</param>
                     <param index="4">Yaw angle in degrees</param>
@@ -1259,7 +1259,7 @@
                     <param index="2">0: Do nothing for onboard computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.</param>
                     <param index="3">WIP: 0: Do nothing for camera, 1: Reboot onboard camera, 2: Shutdown onboard camera, 3: Reboot onboard camera and keep it in the bootloader until upgraded</param>
                     <param index="4">WIP: 0: Do nothing for mount (e.g. gimbal), 1: Reboot mount, 2: Shutdown mount, 3: Reboot mount and keep it in the bootloader until upgraded</param>
-                    <param index="5">Reserved, send 0</param>
+                    <param index="5">0: Do nothing for WiFi chip, 1: Reboot WiFi chip, 2: Turn-off WiFi</param>
                     <param index="6">Reserved, send 0</param>
                     <param index="7">WIP: ID (e.g. camera ID -1 for all IDs)</param>
                </entry>
