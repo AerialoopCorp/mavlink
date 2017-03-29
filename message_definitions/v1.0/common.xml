@@ -3634,6 +3634,11 @@
             <field type="float" name="size_y">Size in radians of target along y-axis</field>
         </message>
 
+        <message id="227" name="RPM">
+            <description></description>
+            <field type="uint16_t" name="rpm1">RPM sensor 1</field>
+            <field type="uint16_t" name="rpm2">RPM sensor 2</field>
+        </message>
         <message id="228" name="MISSION_CHECK">
              <description>This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of MISSIONs.</description>
              <field type="uint8_t" name="target_system">System ID</field>
