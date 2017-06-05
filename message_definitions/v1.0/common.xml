@@ -473,6 +473,36 @@
                <entry value="16777216" name="MAV_SYS_STATUS_LOGGING">
                     <description>0x1000000 Logging</description>
                </entry>
+               <entry value="33554432" name="MAV_SYS_STATUS_SENSOR_BATTERY">
+                    <description>0x2000000 Battery</description>
+               </entry>
+               <entry value="2147483648" name="MAV_SYS_STATUS_SAFETY">
+                    <description>0xF0000000 Battery</description>
+               </entry>
+          </enum>
+          <enum name="MAV_FAILURE">
+               <description>[WIP] These encode the high-level failures that might occurr</description>
+               <entry value="1" name="MAV_FAILURE_FW_ENGINE">
+                    <description>Loss of fixed-wing thrust</description>
+               </entry>
+               <entry value="2" name="MAV_FAILURE_VTOL_TRANSITION">
+                    <description>VTOL fixed-wing flight not possible or aborted</description>
+               </entry>
+               <entry value="4" name="MAV_FAILURE_MISSION">
+                    <description>Mission cannot be continued for some reason</description>
+               </entry>
+               <entry value="8" name="MAV_FAILURE_VIBRATION">
+                    <description>Excessive vibration detected</description>
+               </entry>
+               <entry value="16" name="MAV_FAILURE_DPRESS_UNRELIABLE">
+                    <description>Potential issue with differential pressure sensing</description>
+               </entry>
+               <entry value="32" name="MAV_FAILURE_SENS_FAILOVER">
+                    <description>Sensor failover happened</description>
+               </entry>
+               <entry value="64" name="MAV_FAILURE_GPS_UNRELIABLE">
+                    <description>Potential issue with GPS position</description>
+               </entry>
           </enum>
           <enum name="MAV_FRAME">
                <entry value="0" name="MAV_FRAME_GLOBAL">
@@ -3634,10 +3664,11 @@
             <field type="float" name="size_y">Size in radians of target along y-axis</field>
         </message>
 
-        <message id="227" name="RPM">
-            <description></description>
-            <field type="uint16_t" name="rpm1">RPM sensor 1</field>
-            <field type="uint16_t" name="rpm2">RPM sensor 2</field>
+        <message id="227" name="EXTENDED_HUD">
+            <description>[WIP] Extended HUD information</description>
+            <field type="uint16_t[4]" name="rpm">RPM sensors, from 0 to MAX_INT_16</field>
+            <field type="uint16_t[4]" name="throttle">Throttle in percent from -100 to 100. 1 is main or multirotor thrust, 2 is secondary or fixed-wing thrust.</field>
+            <field type="uint32_t" name="failures" enum="MAV_FAILURE">See MAV_FAILURE</field>
         </message>
         <message id="228" name="MISSION_CHECK">
              <description>This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of MISSIONs.</description>
