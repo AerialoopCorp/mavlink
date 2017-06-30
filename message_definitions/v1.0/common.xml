@@ -476,14 +476,17 @@
                <entry value="33554432" name="MAV_SYS_STATUS_SENSOR_BATTERY">
                     <description>0x2000000 Battery</description>
                </entry>
-               <entry value="67108864" name="MAV_SYS_STATUS_ACCEL_CONSISTENT">
-                    <description>0x4000000 Accels are consistent</description>
+               <entry value="67108864" name="MAV_SYS_STATUS_STORAGE">
+                    <description>0x4000000 Onboard storage health</description>
                </entry>
-               <entry value="34217728" name="MAV_SYS_STATUS_GYRO_CONSISTENT">
-                    <description>0x8000000 Gyros are consistent</description>
+               <entry value="134217728" name="MAV_SYS_STATUS_GYRO_CONSISTENT">
+                    <description>0x8000000 Onboard storage health</description>
+               </entry>
+               <entry value="268435456" name="MAV_SYS_STATUS_ACCEL_CONSISTENT">
+                    <description>0x10000000 Onboard storage health</description>
                </entry>
                <entry value="2147483648" name="MAV_SYS_STATUS_SAFETY">
-                    <description>0x10000000 Safety</description>
+                    <description>0x80000000 Safety</description>
                </entry>
           </enum>
           <enum name="MAV_FAILURE">
@@ -497,23 +500,8 @@
                <entry value="4" name="MAV_FAILURE_MISSION">
                     <description>Mission cannot be continued for some reason</description>
                </entry>
-               <entry value="8" name="MAV_FAILURE_VIBRATION">
-                    <description>Excessive vibration detected</description>
-               </entry>
-               <entry value="16" name="MAV_FAILURE_DPRESS">
-                    <description>Potential issue with differential pressure sensing</description>
-               </entry>
-               <entry value="32" name="MAV_FAILURE_SENS_FAILOVER">
-                    <description>Sensor failover happened</description>
-               </entry>
-               <entry value="64" name="MAV_FAILURE_GPS">
-                    <description>Potential issue with GPS position</description>
-               </entry>
-               <entry value="128" name="MAV_FAILURE_DATAMAN">
-                    <description>Dataman corrupted or cannot be read</description>
-               </entry>
-               <entry value="256" name="MAV_FAILURE_STORAGE">
-                    <description>Onboard storage is not available</description>
+               <entry value="8" name="MAV_FAILURE_GPOS">
+                    <description>Global position not available</description>
                </entry>
           </enum>
           <enum name="MAV_LOG_ENTRY_INFO">
