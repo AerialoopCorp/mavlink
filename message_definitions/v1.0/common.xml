@@ -503,6 +503,12 @@
                <entry value="8" name="MAV_FAILURE_GPOS">
                     <description>Global position not available</description>
                </entry>
+               <entry value="16" name="MAV_FAILURE_ALTITUDE">
+                    <description>Unexpected loss of altitude</description>
+               </entry>
+               <entry value="32" name="MAV_FAILURE_MIN_ALTITUDE">
+                    <description>Minimum altitude violation</description>
+               </entry>
           </enum>
           <enum name="MAV_LOG_ENTRY_INFO">
                <description>[WIP] These encode log file information</description>
