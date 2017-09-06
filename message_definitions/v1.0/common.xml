@@ -509,6 +509,9 @@
                <entry value="32" name="MAV_FAILURE_MIN_ALTITUDE">
                     <description>Minimum altitude violation</description>
                </entry>
+               <entry value="64" name="MAV_FAILURE_AIRSPEED">
+                    <description>Airspeed not available</description>
+               </entry>
           </enum>
           <enum name="MAV_LOG_ENTRY_INFO">
                <description>[WIP] These encode log file information</description>
@@ -2428,22 +2431,22 @@
           <enum name="LICENSE_TYPE">
               <description></description>
               <entry value="0" name="NO_LICENSING">
-                  <description></description>
+                  <description>Free version</description>
               </entry>
               <entry value="1" name="CHECKING">
-                  <description></description>
+                  <description>Checking license</description>
               </entry>
-              <entry value="2" name="UNLICENSED">
-                  <description></description>
+              <entry value="2" name="INVALID">
+                  <description>Invalid license set</description>
               </entry>
               <entry value="3" name="TRIAL">
-                  <description></description>
+                  <description>In trial mode</description>
               </entry>
               <entry value="4" name="VALID">
-                  <description></description>
+                  <description>Valid license set</description>
               </entry>
               <entry value="5" name="EXPIRED">
-                  <description></description>
+                  <description>Trial or actual license is expired</description>
               </entry>
           </enum>
      </enums>
