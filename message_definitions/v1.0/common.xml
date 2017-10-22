@@ -3688,6 +3688,20 @@
             <field type="float" name="size_y">Size in radians of target along y-axis</field>
         </message>
 
+        <message id="225" name="CAMERA_IMAGE_CAPTURED_V1">
+          <description>Information about a captured image</description>
+          <field type="uint32_t" name="time_boot_ms">Timestamp (milliseconds since system boot)</field>
+          <field type="uint64_t" name="time_utc">Timestamp (microseconds since UNIX epoch) in UTC. 0 for unknown.</field>
+          <field type="uint8_t" name="camera_id">Camera ID (1 for first, 2 for second, etc.)</field>
+          <field type="int32_t" name="lat">Latitude, expressed as degrees * 1E7 where image was taken</field>
+          <field type="int32_t" name="lon">Longitude, expressed as degrees * 1E7 where capture was taken</field>
+          <field type="int32_t" name="alt">Altitude in meters, expressed as * 1E3 (AMSL, not WGS84) where image was taken</field>
+          <field type="int32_t" name="relative_alt">Altitude above ground in meters, expressed as * 1E3 where image was taken</field>
+          <field type="float[4]" name="q">Quaternion of camera orientation (w, x, y, z order, zero-rotation is 0, 0, 0, 0)</field>
+          <field type="int32_t" name="image_index">Zero based index of this image (image count since armed -1)</field>
+          <field type="int8_t" name="capture_result">Boolean indicating success (1) or failure (0) while capturing this image.</field>
+          <field type="char[205]" name="file_url">URL of image taken. Either local storage or http://foo.jpg if camera provides an HTTP interface.</field>
+        </message>
         <message id="226" name="EXTENDED_LOG_ENTRY">
            <description>Reply to LOG_REQUEST_LIST</description>
            <field type="uint16_t" name="id">Log id</field>
