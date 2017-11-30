@@ -1136,12 +1136,12 @@
 
                <entry name="MAV_CMD_DO_MOUNT_CONTROL" value="205">
                    <description>Mission command to control a camera or antenna mount</description>
-                   <param index="1">pitch (WIP: DEPRECATED: or lat in degrees) depending on mount mode.</param>
-                   <param index="2">roll (WIP: DEPRECATED: or lon in degrees) depending on mount mode.</param>
-                   <param index="3">yaw (WIP: DEPRECATED: or alt in meters) depending on mount mode.</param>
-                   <param index="4">WIP: alt in meters depending on mount mode.</param>
-                   <param index="5">WIP: latitude in degrees * 1E7, set if appropriate mount mode.</param>
-                   <param index="6">WIP: longitude in degrees * 1E7, set if appropriate mount mode.</param>
+                   <param index="1">pitch in degrees</param>
+                   <param index="2">roll in degrees</param>
+                   <param index="3">yaw in degrees</param>
+                   <param index="4">zoom from -1 to 1 (AirRails)</param>
+                   <param index="5">Empty</param>
+                   <param index="6">Empty</param>
                    <param index="7">MAV_MOUNT_MODE enum value</param>
                </entry>
 
