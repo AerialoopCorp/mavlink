@@ -485,9 +485,6 @@
                <entry value="268435456" name="MAV_SYS_STATUS_ACCEL_CONSISTENT">
                     <description>0x10000000 Onboard storage health</description>
                </entry>
-               <entry value="2147483648" name="MAV_SYS_STATUS_SAFETY">
-                    <description>0x80000000 Safety</description>
-               </entry>
           </enum>
           <enum name="MAV_FAILURE">
                <description>[WIP] These encode the high-level failures that might occurr</description>
@@ -1419,6 +1416,17 @@
                  <description>WIP: Request flight information (FLIGHT_INFORMATION)</description>
                  <param index="1">1: Request flight information</param>
                  <param index="2">Reserved (all remaining params)</param>
+               </entry>
+               <entry value="529" name="MAV_CMD_RESET_CAMERA_SETTINGS">
+                 <description>WIP: Reset all camera settings to Factory Default</description>
+                 <param index="1">0: No Action 1: Reset all settings</param>
+                 <param index="2">Reserved (all remaining params)</param>
+               </entry>
+               <entry value="530" name="MAV_CMD_SET_CAMERA_MODE">
+                 <description>Set camera running mode. Use NAN for reserved values.</description>
+                 <param index="1">Reserved (Set to 0)</param>
+                 <param index="2">Camera mode (see CAMERA_MODE enum)</param>
+                 <param index="3">Reserved (all remaining params)</param>
                </entry>
 
               <entry value="2000" name="MAV_CMD_IMAGE_START_CAPTURE">
