@@ -485,6 +485,10 @@
                <entry value="268435456" name="MAV_SYS_STATUS_ACCEL_CONSISTENT">
                     <description>0x10000000 Onboard storage health</description>
                </entry>
+               <!-- FIXME: This is used but commented because the Java generator can't handle the number (needs a datatype change) -->
+               <!-- <entry value="2147483648" name="MAV_SYS_STATUS_SAFETY">
+                    <description>0x80000000 Safety</description>
+               </entry> -->
           </enum>
           <enum name="MAV_FAILURE">
                <description>[WIP] These encode the high-level failures that might occurr</description>
@@ -1357,6 +1361,11 @@
                     <param index="1">The MAVLink message ID</param>
                     <param index="2">The interval between two messages, in microseconds. Set to -1 to disable and 0 to request default rate.</param>
                </entry>
+              <entry value="519" name="MAV_CMD_REQUEST_PROTOCOL_VERSION">
+                <description>Request MAVLink protocol version compatibility</description>
+                <param index="1">1: Request supported protocol versions by all nodes on the network</param>
+                <param index="2">Reserved (all remaining params)</param>
+              </entry>
                <entry value="520" name="MAV_CMD_REQUEST_AUTOPILOT_CAPABILITIES">
                  <description>Request autopilot capabilities</description>
                  <param index="1">1: Request autopilot version</param>
