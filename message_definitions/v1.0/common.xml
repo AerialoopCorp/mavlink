@@ -1140,8 +1140,8 @@
                    <param index="1">pitch in degrees</param>
                    <param index="2">roll in degrees</param>
                    <param index="3">yaw in degrees</param>
-                   <param index="4">zoom from -1 to 1 (AirRails)</param>
-                   <param index="5">Empty</param>
+                   <param index="4">(AirRails) zoom from -1 to 1</param>
+                   <param index="5">(AirRails)shutter / record, 0 = off, 1 = on</param>
                    <param index="6">Empty</param>
                    <param index="7">MAV_MOUNT_MODE enum value</param>
                </entry>
