@@ -2451,6 +2451,21 @@
                   <description>Static fixed, typically used for base stations</description>
               </entry>
           </enum>
+          <enum name="LANDING_TARGET_TYPE">
+              <description>Type of landing target</description>
+              <entry value="0" name="LANDING_TARGET_TYPE_LIGHT_BEACON">
+                <description>Landing target signaled by light beacon (ex: IR-LOCK)</description>
+              </entry>
+              <entry value="1" name="LANDING_TARGET_TYPE_RADIO_BEACON">
+                <description>Landing target signaled by radio beacon (ex: ILS, NDB)</description>
+              </entry>
+              <entry value="2" name="LANDING_TARGET_TYPE_VISION_FIDUCIAL">
+                <description>Landing target represented by a fiducial marker (ex: ARTag)</description>
+              </entry>
+              <entry value="3" name="LANDING_TARGET_TYPE_VISION_OTHER">
+                <description>Landing target represented by a pre-defined visual shape/feature (ex: X-marker, H-marker, square)</description>
+              </entry>
+          </enum>
           <enum name="LICENSE_TYPE">
               <description></description>
               <entry value="0" name="NO_LICENSING">
@@ -3694,15 +3709,21 @@
             <field type="uint64_t" name="uid">UID if provided by hardware</field>
         </message>
         <message id="149" name="LANDING_TARGET">
-            <description>The location of a landing area captured from a downward facing camera</description>
-            <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
-            <field type="uint8_t" name="target_num">The ID of the target if multiple targets are present</field>
-            <field type="uint8_t" name="frame">MAV_FRAME enum specifying the whether the following feilds are earth-frame, body-frame, etc.</field>
-            <field type="float" name="angle_x">X-axis angular offset (in radians) of the target from the center of the image</field>
-            <field type="float" name="angle_y">Y-axis angular offset (in radians) of the target from the center of the image</field>
-            <field type="float" name="distance">Distance to the target from the vehicle in meters</field>
-            <field type="float" name="size_x">Size in radians of target along x-axis</field>
-            <field type="float" name="size_y">Size in radians of target along y-axis</field>
+          <description>The location of a landing area captured from a downward facing camera</description>
+          <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+          <field type="uint8_t" name="target_num">The ID of the target if multiple targets are present</field>
+          <field type="uint8_t" name="frame" enum="MAV_FRAME">MAV_FRAME enum specifying the whether the following feilds are earth-frame, body-frame, etc.</field>
+          <field type="float" name="angle_x">X-axis angular offset (in radians) of the target from the center of the image</field>
+          <field type="float" name="angle_y">Y-axis angular offset (in radians) of the target from the center of the image</field>
+          <field type="float" name="distance">Distance to the target from the vehicle in meters</field>
+          <field type="float" name="size_x">Size in radians of target along x-axis</field>
+          <field type="float" name="size_y">Size in radians of target along y-axis</field>
+          <field type="float" name="x">X Position of the landing target on MAV_FRAME</field>
+          <field type="float" name="y">Y Position of the landing target on MAV_FRAME</field>
+          <field type="float" name="z">Z Position of the landing target on MAV_FRAME</field>
+          <field type="float[4]" name="q">Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)</field>
+          <field type="uint8_t" name="type" enum="LANDING_TARGET_TYPE">LANDING_TARGET_TYPE enum specifying the type of landing target</field>
+          <field type="uint8_t" name="position_valid">Boolean indicating known position (1) or default unkown position (0), for validation of positioning of the landing target</field>
         </message>
 
         <message id="225" name="CAMERA_IMAGE_CAPTURED_V1">
