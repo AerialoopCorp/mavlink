@@ -1714,6 +1714,14 @@
                   <param index="7">User defined</param>
               </entry>
               <!-- END of user range (31000 to 31999) -->
+
+              <!-- AirRails custom commands -->
+              <entry value="40000" name="MAV_CMD_PREFLIGHT_ACTUATOR_CHECK">
+                  <description>This command is used to check actuator controls in preflight.</description>
+                  <param index="1">Requested actuator check mode, see PREFLIGHT_ACTUATOR_CHECK_REQUEST</param>
+                  <param index="2">Actuator command. 0 for roll, 1 for pitch, 2 for yaw. Channels will be set for actuator groups 0 and 1 if the are not motor channels.</param>
+                  <param index="3">Actuator channel value to set (between -1 and 1)</param>
+              </entry>
           </enum>
           <enum name="MAV_DATA_STREAM">
                <description>THIS INTERFACE IS DEPRECATED AS OF JULY 2015. Please use MESSAGE_INTERVAL instead. A data stream is not a fixed set of messages, but rather a
@@ -2466,6 +2474,8 @@
                 <description>Landing target represented by a pre-defined visual shape/feature (ex: X-marker, H-marker, square)</description>
               </entry>
           </enum>
+
+          <!-- AirRails enums -->
           <enum name="LICENSE_TYPE">
               <description></description>
               <entry value="0" name="NO_LICENSING">
@@ -2485,6 +2495,15 @@
               </entry>
               <entry value="5" name="EXPIRED">
                   <description>Trial or actual license is expired</description>
+              </entry>
+          </enum>
+          <enum name="PREFLIGHT_ACTUATOR_CHECK_REQUEST">
+              <description></description>
+              <entry value="0" name="STOP_ACTUATOR_CHECK">
+                  <description>Stop actuator check mode. Will be acknowledgegd.</description>
+              </entry>
+              <entry value="1" name="CHECK_CONTROL_SURFACES">
+                  <description>Put vehicle into actuator check mode and enables set check according to parameters set. Will be acknowledgegd.</description>
               </entry>
           </enum>
      </enums>
