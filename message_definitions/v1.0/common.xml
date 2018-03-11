@@ -2504,6 +2504,8 @@
               </entry>
               <entry value="1" name="CHECK_CONTROL_SURFACES">
                   <description>Put vehicle into actuator check mode and enables set check according to parameters set. Will be acknowledgegd.</description>
+              <entry value="2" name="CHECK_RC_AND_MODE">
+                  <description>Verify that RC switches are in correct position (hover and mission set) and that we are in the correct mode (hover). If no RC is present the RC checks will return true.</description>
               </entry>
           </enum>
      </enums>
