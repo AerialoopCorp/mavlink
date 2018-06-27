@@ -3747,6 +3747,17 @@
           <field type="uint8_t" name="type" enum="LANDING_TARGET_TYPE">LANDING_TARGET_TYPE enum specifying the type of landing target</field>
           <field type="uint8_t" name="position_valid">Boolean indicating known position (1) or default unkown position (0), for validation of positioning of the landing target</field>
         </message>
+        <message id="150" name="LANDING_TARGET_LSF_INT">
+            <description>The location of a landing area captured from LSF</description>
+            <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+            <field type="uint16_t" name="target_id">The ID of the target if multiple targets are present</field>
+            <field type="uint8_t" name="frame">The coordinate system of the LANDING_TARGET_LSF_INT. see MAV_FRAME in mavlink_types.h</field>
+            <field type="int32_t" name="x">local: x position in meters * 1e4, global: latitude in degrees * 10^7</field>
+            <field type="int32_t" name="y">local: y position in meters * 1e4, global: longitude in degrees *10^7</field>
+            <field type="float" name="z">altitude in meters (relative or absolute, depending on frame.</field>
+            <field type="uint8_t" name="rank">Percentage; indicates suitability of this site for landing</field>
+            <field type="float[4]" name="q">Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)</field>
+        </message>
 
         <message id="225" name="CAMERA_IMAGE_CAPTURED_V1">
           <description>Information about a captured image</description>
