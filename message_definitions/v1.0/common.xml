@@ -519,6 +519,9 @@
                <entry value="256" name="MAV_FAILURE_BATTERY_CRITICAL">
                     <description>Airspeed not available</description>
                </entry>
+               <entry value="512" name="MAV_FAILURE_TERRAIN">
+                    <description>Terrain estimate not available</description>
+               </entry>
           </enum>
           <enum name="MAV_LOG_ENTRY_INFO">
                <description>[WIP] These encode log file information</description>
