@@ -522,6 +522,12 @@
                <entry value="512" name="MAV_FAILURE_TERRAIN">
                     <description>Terrain estimate not available</description>
                </entry>
+               <entry value="1024" name="MAV_FAILURE_MANUAL_CONTROL">
+                    <description>Manual control not available</description>
+               </entry>
+               <entry value="2048" name="MAV_FAILURE_DATA_LINK">
+                    <description>Data link not available</description>
+               </entry>
           </enum>
           <enum name="MAV_LOG_ENTRY_INFO">
                <description>[WIP] These encode log file information</description>
