@@ -480,10 +480,16 @@
                     <description>0x4000000 Onboard storage health</description>
                </entry>
                <entry value="134217728" name="MAV_SYS_STATUS_GYRO_CONSISTENT">
-                    <description>0x8000000 Onboard storage health</description>
+                    <description>0x8000000 Gyros are consistent</description>
                </entry>
                <entry value="268435456" name="MAV_SYS_STATUS_ACCEL_CONSISTENT">
-                    <description>0x10000000 Onboard storage health</description>
+                    <description>0x10000000 Accels are consistent</description>
+               </entry>
+               <entry value="536870912" name="MAV_SYS_STATUS_MAG_CONSISTENT">
+                    <description>0x20000000 Mags are consistent</description>
+               </entry>
+               <entry value="1073741824" name="MAV_SYS_STATUS_AVIONICS_POWER">
+                    <description>0x40000000 Avionics power ok</description>
                </entry>
                <!-- FIXME: This is used but commented because the Java generator can't handle the number (needs a datatype change) -->
                <!-- <entry value="2147483648" name="MAV_SYS_STATUS_SAFETY">
