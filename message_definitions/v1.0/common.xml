@@ -2270,7 +2270,6 @@
                   <description>MAV currently landing</description>
               </entry>
           </enum>
-          </enum>
           <enum name="ADSB_ALTITUDE_TYPE">
               <description>Enumeration of the ADSB altimeter types</description>
               <entry value="0" name="ADSB_ALTITUDE_TYPE_PRESSURE_QNH">
