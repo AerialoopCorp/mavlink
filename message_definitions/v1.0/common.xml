@@ -709,7 +709,7 @@
                <entry value="22" name="MAV_CMD_NAV_TAKEOFF">
                     <description>Takeoff from ground / hand</description>
                     <param index="1">Minimum pitch (if airspeed sensor present), desired pitch without sensor</param>
-                    <param index="2">Empty</param>
+                    <param index="2">Acceptance radius in meters</param>
                     <param index="3">Empty</param>
                     <param index="4">Yaw angle (if magnetometer present), ignored without magnetometer</param>
                     <param index="5">Latitude</param>
