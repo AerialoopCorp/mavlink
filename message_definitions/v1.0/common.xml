@@ -3779,6 +3779,22 @@
             <field type="uint8_t" name="rank">Percentage; indicates suitability of this site for landing</field>
             <field type="float[4]" name="q">Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)</field>
         </message>
+        <message id="160" name="TERRAIN_SENSOR">
+            <description>Terrain sensing information from an onboard system</description>
+            <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+            <field type="uint16_t" name="lookahead_offset">Required vertical offset from current ground distance to avoid approaching terrain / obstacles</field>
+        </message>
+        <message id="161" name="DISTANCE_SENSOR_SYNCED">
+            <description>Distance sensor data with support for time synchronisation. Note: Temporary! Should be replaced with an extension to the old DISTANCE_SENSOR message.</description>
+            <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+            <field type="uint16_t" name="min_distance">Minimum distance the sensor can measure in centimeters</field>
+            <field type="uint16_t" name="max_distance">Maximum distance the sensor can measure in centimeters</field>
+            <field type="uint16_t" name="current_distance">Current distance reading</field>
+            <field type="uint8_t" name="type">Type from MAV_DISTANCE_SENSOR enum.</field>
+            <field type="uint8_t" name="id">Onboard ID of the sensor</field>
+            <field type="uint8_t" name="orientation">Direction the sensor faces from MAV_SENSOR_ORIENTATION enum.</field>
+            <field type="uint8_t" name="covariance">Measurement covariance in centimeters, 0 for unknown / invalid readings</field>
+        </message>
 
         <message id="225" name="CAMERA_IMAGE_CAPTURED_V1">
           <description>Information about a captured image</description>
