@@ -2530,6 +2530,15 @@
                   <description>Verify that RC switches are in correct position (hover and mission set) and that we are in the correct mode (hover). If no RC is present the RC checks will return true.</description>
               </entry>
           </enum>
+          <enum name="DATA_ITEM_TYPE">
+              <description>Data item types for generic data transfer. The enum entry names correspond to the MAVLink message for transferring the requested data items.</description>
+              <entry value="0" name="CAMERA_IMAGE_CAPTURED_V1">
+                  <description></description>
+              </entry>
+              <entry value="1" name="LOG_ENTRY">
+                  <description></description>
+              </entry>
+          </enum>
      </enums>
      <messages>
           <message id="0" name="HEARTBEAT">
@@ -3797,17 +3806,37 @@
             <field type="uint8_t" name="orientation">Direction the sensor faces from MAV_SENSOR_ORIENTATION enum.</field>
             <field type="uint8_t" name="covariance">Measurement covariance in centimeters, 0 for unknown / invalid readings</field>
         </message>
-        <message id="223" name="CAMERA_IMAGE_CAPTURED_V1_ERASE">
-          <description>Erases all stored camera capture items. This will be confirmed with an empty CAMERA_IMAGE_CAPTURED_V1 item where the total_count is 0.</description>
-          <field type="uint8_t" name="target_system">System ID</field>
-          <field type="uint8_t" name="target_component">Component ID</field>
+        <message id="221" name="DATA_DATA">
+          <description>WIP: Reply to DATA_FETCH</description>
+          <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
+          <field type="uint32_t" name="item_id">ID of item to fetch data from</field>
+          <field type="uint32_t" name="offset">Offset into the item data</field>
+          <field type="uint8_t" name="count">Number of bytes (zero for end of data)</field>
+          <field type="uint8_t[240]" name="data">log data</field>
         </message>
-        <message id="224" name="CAMERA_IMAGE_CAPTURED_V1_REQUEST_LIST">
-          <description>Request a list of stored camera capture items.</description>
+        <message id="222" name="DATA_FETCH">
+          <description>WIP: Fetch binary data from a previously listed data item. How the maximum available data is made known to the requesting system is item type specific and has to be taken care of in the respecting item message sent for a DATA_LIST request. The response to DATA_FETCH will be a stream of DATA_DATA. To stop the stream, send DATA_FETCH with a 'count' of 0.</description>
           <field type="uint8_t" name="target_system">System ID</field>
           <field type="uint8_t" name="target_component">Component ID</field>
-          <field type="uint32_t" name="start">First image id (0 for first available)</field>
-          <field type="uint32_t" name="end">Last image id (0xffffffff for last available)</field>
+          <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
+          <field type="uint32_t" name="item_id">ID of item to fetch data from</field>
+          <field type="uint32_t" name="offset">Offset into the item data</field>
+          <field type="uint32_t" name="count">Number of bytes to fetch</field>
+        </message>
+        <message id="223" name="DATA_AVAILABLE">
+          <description>WIP: Answer to DATA_LIST to confirm number of available itmes. If no DATA_LIST is preceeding DATA_AVAILABLE it is expected that the receiving system will now start requesting the available items to store them. To delete all existing items on the receiving system 'count' can be set to 0, this will be confirmed by a DATA_AVAILABLE with 'count' 0.</description>
+          <field type="uint8_t" name="target_system">System ID</field>
+          <field type="uint8_t" name="target_component">Component ID</field>
+          <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
+          <field type="uint32_t" name="count">Number of items available or number of items that shall be received</field>
+        </message>
+        <message id="224" name="DATA_LIST">
+          <description>WIP: Request a list of stored data items. If 'end' is set to 0xffffffff the receiving system will confirm with DATA_AVAILABLE the number of available items. If 'end' is set to a value below 0xffffffff but above or equal 'start' the receiving system will begin streaming the range of items requested. If the range cannot be machted by available data the receiving system shall reply with DATA_AVAILABLE indicating the current count.</description>
+          <field type="uint8_t" name="target_system">System ID</field>
+          <field type="uint8_t" name="target_component">Component ID</field>
+          <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
+          <field type="uint32_t" name="start">First item id (0 for first available)</field>
+          <field type="uint32_t" name="end">Last item id (0xffffffff for last available)</field>
         </message>
         <message id="225" name="CAMERA_IMAGE_CAPTURED_V1">
           <description>Information about a captured image</description>
@@ -3815,7 +3844,6 @@
           <field type="uint64_t" name="time_utc">Timestamp (microseconds since UNIX epoch) in UTC. 0 for unknown.</field>
           <field type="uint8_t" name="camera_id">Camera ID (1 for first, 2 for second, etc.)</field>
           <field type="uint32_t" name="sequence">Zero based index of this image</field>
-          <field type="uint32_t" name="total_count">Current amount of stored capture items</field>
           <field type="int32_t" name="lat">Latitude, expressed as degrees * 1E7 where image was taken</field>
           <field type="int32_t" name="lon">Longitude, expressed as degrees * 1E7 where capture was taken</field>
           <field type="int32_t" name="alt">Altitude in meters, expressed as * 1E3 (AMSL, not WGS84) where image was taken</field>
