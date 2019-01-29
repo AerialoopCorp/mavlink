@@ -1737,6 +1737,7 @@
                   <param index="2">Actuator command. 0 for roll, 1 for pitch, 2 for yaw. Channels will be set for actuator groups 0 and 1 if the are not motor channels.</param>
                   <param index="3">Actuator channel value to set (between -1 and 1)</param>
               </entry>
+              <!-- AirRails internal commands starting with 50000 -->
           </enum>
           <enum name="MAV_DATA_STREAM">
                <description>THIS INTERFACE IS DEPRECATED AS OF JULY 2015. Please use MESSAGE_INTERVAL instead. A data stream is not a fixed set of messages, but rather a
@@ -3824,14 +3825,14 @@
           <field type="uint32_t" name="count">Number of bytes to fetch</field>
         </message>
         <message id="223" name="DATA_AVAILABLE">
-          <description>WIP: Answer to DATA_LIST to confirm number of available itmes. If no DATA_LIST is preceeding DATA_AVAILABLE it is expected that the receiving system will now start requesting the available items to store them. To delete all existing items on the receiving system 'count' can be set to 0, this will be confirmed by a DATA_AVAILABLE with 'count' 0.</description>
+          <description>WIP: Answer to DATA_LIST to confirm number of available itmes. If no DATA_LIST is preceeding DATA_AVAILABLE it is expected that the receiving system will now start requesting the available items to store them. Successful fetch and store of all items will be confirmed by a DATA_AVAILABLE with 'count' confirming the number of fetched items. To delete all existing items on the receiving system 'count' can be set to 0, the successful deletion will be confirmed by a DATA_AVAILABLE with 'count' 0.</description>
           <field type="uint8_t" name="target_system">System ID</field>
           <field type="uint8_t" name="target_component">Component ID</field>
           <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
           <field type="uint32_t" name="count">Number of items available or number of items that shall be received</field>
         </message>
         <message id="224" name="DATA_LIST">
-          <description>WIP: Request a list of stored data items. If 'end' is set to 0xffffffff the receiving system will confirm with DATA_AVAILABLE the number of available items. If 'end' is set to a value below 0xffffffff but above or equal 'start' the receiving system will begin streaming the range of items requested. If the range cannot be machted by available data the receiving system shall reply with DATA_AVAILABLE indicating the current count.</description>
+          <description>WIP: Request a list of stored data items. If 'end' is set to 0xffffffff the receiving system will inform with DATA_AVAILABLE the number of available items. If 'end' is set to a value below 0xffffffff but above or equal 'start' the receiving system will begin streaming the range of items requested. If the range cannot be machted with available data the receiving system shall reply with DATA_AVAILABLE indicating the current count.</description>
           <field type="uint8_t" name="target_system">System ID</field>
           <field type="uint8_t" name="target_component">Component ID</field>
           <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
