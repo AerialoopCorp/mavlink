@@ -165,6 +165,51 @@
                   <description>official stable release</description>
               </entry>
           </enum>
+          <enum name="HL_FAILURE_FLAG">
+              <description>Flags to report failure cases over the high latency telemtry.</description>
+              <entry value="1" name="HL_FAILURE_FLAG_GPS">
+                <description>GPS failure.</description>
+              </entry>
+              <entry value="2" name="HL_FAILURE_FLAG_DIFFERENTIAL_PRESSURE">
+                <description>Differential pressure sensor failure.</description>
+              </entry>
+              <entry value="4" name="HL_FAILURE_FLAG_ABSOLUTE_PRESSURE">
+                <description>Absolute pressure sensor failure.</description>
+              </entry>
+              <entry value="8" name="HL_FAILURE_FLAG_3D_ACCEL">
+                <description>Accelerometer sensor failure.</description>
+              </entry>
+              <entry value="16" name="HL_FAILURE_FLAG_3D_GYRO">
+                <description>Gyroscope sensor failure.</description>
+              </entry>
+              <entry value="32" name="HL_FAILURE_FLAG_3D_MAG">
+                <description>Magnetometer sensor failure.</description>
+              </entry>
+              <entry value="64" name="HL_FAILURE_FLAG_TERRAIN">
+                <description>Terrain subsystem failure.</description>
+              </entry>
+              <entry value="128" name="HL_FAILURE_FLAG_BATTERY">
+                <description>Battery failure/critical low battery.</description>
+              </entry>
+              <entry value="256" name="HL_FAILURE_FLAG_RC_RECEIVER">
+                <description>RC receiver failure/no rc connection.</description>
+              </entry>
+              <entry value="512" name="HL_FAILURE_FLAG_OFFBOARD_LINK">
+                <description>Offboard link failure.</description>
+              </entry>
+              <entry value="1024" name="HL_FAILURE_FLAG_ENGINE">
+                <description>Engine failure.</description>
+              </entry>
+              <entry value="2048" name="HL_FAILURE_FLAG_GEOFENCE">
+                <description>Geofence violation.</description>
+              </entry>
+              <entry value="4096" name="HL_FAILURE_FLAG_ESTIMATOR">
+                <description>Estimator failure, for example measurement rejection or large variances.</description>
+              </entry>
+              <entry value="8192" name="HL_FAILURE_FLAG_MISSION">
+                <description>Mission failure.</description>
+              </entry>
+          </enum>
           <!-- WARNING: MAV_ACTION Enum is no longer supported - has been removed. Please use MAV_CMD -->
           <enum name="MAV_MODE_FLAG">
                 <description>These flags encode the MAV mode.</description>
@@ -3942,35 +3987,62 @@
            <field type="uint8_t[180]" name="data">RTCM message (may be fragmented)</field>
         </message>
         <message id="234" name="HIGH_LATENCY">
-            <description>Message appropriate for high latency connections like Iridium</description>
-            <field name="time_usec" type="uint64_t">Timestamp (microseconds since UNIX epoch)</field>
-            <field name="base_mode" type="uint8_t">System mode bitfield, see MAV_MODE_FLAG ENUM in mavlink/include/mavlink_types.h</field>
-            <field name="custom_mode" type="uint32_t">A bitfield for use for autopilot-specific flags.</field>
-            <field name="landed_state" type="uint8_t" enum="MAV_LANDED_STATE">The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown.</field>
-            <field name="roll" type="int16_t">roll (centidegrees)</field>
-            <field name="pitch" type="int16_t">pitch (centidegrees)</field>
-            <field name="heading" type="uint16_t">heading (centidegrees)</field>
-            <field name="throttle" type="int8_t">throttle (percentage)</field>
-            <field name="roll_sp" type="int16_t">roll setpoint (centidegrees)</field>
-            <field name="pitch_sp" type="int16_t">pitch setpoint (centidegrees)</field>
-            <field name="heading_sp" type="int16_t">heading setpoint (centidegrees)</field>
-            <field name="latitude" type="int32_t">Latitude, expressed as degrees * 1E7</field>
-            <field name="longitude" type="int32_t">Longitude, expressed as degrees * 1E7</field>
-            <field name="altitude_home" type="int16_t">Altitude above the home position (meters)</field>
-            <field name="altitude_amsl" type="int16_t">Altitude above mean sea level (meters)</field>
-            <field name="altitude_sp" type="int16_t">Altitude setpoint relative to the home position (meters)</field>
-            <field name="airspeed" type="uint8_t">airspeed (m/s)</field>
-            <field name="airspeed_sp" type="uint8_t">airspeed setpoint (m/s)</field>
-            <field name="groundspeed" type="uint8_t">groundspeed (m/s)</field>
-            <field name="climb_rate" type="int8_t">climb rate (m/s)</field>
-            <field name="gps_nsat" type="uint8_t">Number of satellites visible. If unknown, set to 255</field>
-            <field name="gps_fix_type" type="uint8_t">See the GPS_FIX_TYPE enum.</field>
-            <field name="battery_remaining" type="uint8_t">Remaining battery (percentage)</field>
-            <field name="temperature" type="int8_t">Autopilot temperature (degrees C)</field>
-            <field name="temperature_air" type="int8_t">Air temperature (degrees C) from airspeed sensor</field>
-            <field name="failsafe" type="uint8_t">failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS, bit4:fence)</field>
-            <field name="wp_num" type="uint8_t">current waypoint number</field>
-            <field name="wp_distance" type="uint16_t">distance to target (meters)</field>
+          <description>Message appropriate for high latency connections like Iridium</description>
+          <field type="uint8_t" name="base_mode" enum="MAV_MODE_FLAG">Bitmap of enabled system modes.</field>
+          <field type="uint32_t" name="custom_mode">A bitfield for use for autopilot-specific flags.</field>
+          <field type="uint8_t" name="landed_state" enum="MAV_LANDED_STATE">The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown.</field>
+          <field type="int16_t" name="roll">roll</field>
+          <field type="int16_t" name="pitch">pitch</field>
+          <field type="uint16_t" name="heading">heading</field>
+          <field type="int8_t" name="throttle">throttle (percentage)</field>
+          <field type="int16_t" name="heading_sp">heading setpoint</field>
+          <field type="int32_t" name="latitude">Latitude</field>
+          <field type="int32_t" name="longitude">Longitude</field>
+          <field type="int16_t" name="altitude_amsl">Altitude above mean sea level</field>
+          <field type="int16_t" name="altitude_sp">Altitude setpoint relative to the home position</field>
+          <field type="uint8_t" name="airspeed">airspeed</field>
+          <field type="uint8_t" name="airspeed_sp">airspeed setpoint</field>
+          <field type="uint8_t" name="groundspeed">groundspeed</field>
+          <field type="int8_t" name="climb_rate">climb rate</field>
+          <field type="uint8_t" name="gps_nsat">Number of satellites visible. If unknown, set to 255</field>
+          <field type="uint8_t" name="gps_fix_type" enum="GPS_FIX_TYPE">GPS Fix type.</field>
+          <field type="uint8_t" name="battery_remaining">Remaining battery (percentage)</field>
+          <field type="int8_t" name="temperature">Autopilot temperature (degrees C)</field>
+          <field type="int8_t" name="temperature_air">Air temperature (degrees C) from airspeed sensor</field>
+          <field type="uint8_t" name="failsafe">failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS, bit4:fence)</field>
+          <field type="uint8_t" name="wp_num">current waypoint number</field>
+          <field type="uint16_t" name="wp_distance">distance to target</field>
+        </message>
+        <message id="235" name="HIGH_LATENCY2">
+          <!-- This message is work-in-progress it can therefore change, and should NOT be used in stable production environments -->
+          <description>Message appropriate for high latency connections like Iridium (version 2)</description>
+          <field type="uint32_t" name="timestamp">Timestamp (milliseconds since boot or Unix epoch)</field>
+          <field type="uint8_t" name="type" enum="MAV_TYPE">Type of the MAV (quadrotor, helicopter, etc.)</field>
+          <field type="uint8_t" name="autopilot" enum="MAV_AUTOPILOT">Autopilot type / class.</field>
+          <field type="uint16_t" name="custom_mode">A bitfield for use for autopilot-specific flags (2 byte version).</field>
+          <field type="int32_t" name="latitude">Latitude</field>
+          <field type="int32_t" name="longitude">Longitude</field>
+          <field type="int16_t" name="altitude">Altitude above mean sea level</field>
+          <field type="int16_t" name="target_altitude">Altitude setpoint</field>
+          <field type="uint8_t" name="heading">Heading</field>
+          <field type="uint8_t" name="target_heading">Heading setpoint</field>
+          <field type="uint16_t" name="target_distance">Distance to target waypoint or position</field>
+          <field type="uint8_t" name="throttle">Throttle</field>
+          <field type="uint8_t" name="airspeed">Airspeed</field>
+          <field type="uint8_t" name="airspeed_sp">Airspeed setpoint</field>
+          <field type="uint8_t" name="groundspeed">Groundspeed</field>
+          <field type="uint8_t" name="windspeed">Windspeed</field>
+          <field type="uint8_t" name="wind_heading">Wind heading</field>
+          <field type="uint8_t" name="eph">Maximum error horizontal position since last message</field>
+          <field type="uint8_t" name="epv">Maximum error vertical position since last message</field>
+          <field type="int8_t" name="temperature_air">Air temperature from airspeed sensor</field>
+          <field type="int8_t" name="climb_rate">Maximum climb rate magnitude since last message</field>
+          <field type="int8_t" name="battery">Battery (percentage, -1 for DNU)</field>
+          <field type="uint16_t" name="wp_num">Current waypoint number</field>
+          <field type="uint16_t" name="failure_flags" enum="HL_FAILURE_FLAG">Bitmap of failure flags.</field>
+          <field type="int8_t" name="custom0">Field for custom payload.</field>
+          <field type="int8_t" name="custom1">Field for custom payload.</field>
+          <field type="int8_t" name="custom2">Field for custom payload.</field>
         </message>
         <message id="241" name="VIBRATION">
             <description>Vibration levels and accelerometer clipping</description>
