@@ -3864,12 +3864,12 @@
         </message>
         <message id="220" name="MOTOR_ACTUATOR_DATA">
             <description>Actuator information message for electric motors. One message contains information of up to 4 actuators.</description>
-            <field type="uint8_t" name="sequence">Sequence of quadruples of actuators, starting at 0.</field>
-            <field type="uint8_t" name="count">Number of actuators contained in this message.</field>
+            <field type="uint8_t" name="group">Group ID of quadruples of actuators, starting at 0.</field>
+            <field type="uint8_t" name="count">Number of actuators available in this message.</field>
             <field type="int32_t[4]" name="rpm">RPM. Set to -1 if not available.</field>
             <field type="int16_t[4]" name="duty">Duty cycle in percent * 100 from -10000 (reversed direction) to 10000. Set to -INT16_MAX (-32768) if not available.</field>
-            <field name="motor_temp" type="int16_t[4]">Motor temperature centi-degrees * 100. Set to -INT16_MAX (-32768) if not available.</field>
-            <field name="controller_temp" type="int16_t[4]">Controller temperature centi-degrees * 100. Set to -INT16_MAX (-32768) if not available.</field>
+            <field type="int16_t[4]" name="motor_temp">Motor temperature centi-degrees * 100. Set to -INT16_MAX (-32768) if not available.</field>
+            <field type="int16_t[4]" name="controller_temp">Controller temperature centi-degrees * 100. Set to -INT16_MAX (-32768) if not available.</field>
             <field type="int16_t[4]" name="controller_current">Controller current, in ampere * 100 (1 = 10 milliampere). Set to -1 if unknown.</field>
         </message>
         <message id="221" name="DATA_DATA">
