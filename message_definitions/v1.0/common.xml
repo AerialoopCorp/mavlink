@@ -3862,6 +3862,16 @@
             <field type="uint8_t" name="orientation">Direction the sensor faces from MAV_SENSOR_ORIENTATION enum.</field>
             <field type="uint8_t" name="covariance">Measurement covariance in centimeters, 0 for unknown / invalid readings</field>
         </message>
+        <message id="220" name="MOTOR_ACTUATOR_DATA">
+            <description>Actuator information message for electric motors. One message contains information of up to 4 actuators.</description>
+            <field type="uint8_t" name="sequence">Sequence of quadruples of actuators, starting at 0.</field>
+            <field type="uint8_t" name="count">Number of actuators contained in this message.</field>
+            <field type="int32_t[4]" name="rpm">RPM. Set to -1 if not available.</field>
+            <field type="int16_t[4]" name="duty">Duty cycle in percent * 100 from -10000 (reversed direction) to 10000. Set to -INT16_MAX (-32768) if not available.</field>
+            <field name="motor_temp" type="int16_t[4]">Motor temperature centi-degrees * 100. Set to -INT16_MAX (-32768) if not available.</field>
+            <field name="controller_temp" type="int16_t[4]">Controller temperature centi-degrees * 100. Set to -INT16_MAX (-32768) if not available.</field>
+            <field type="int16_t[4]" name="controller_current">Controller current, in ampere * 100 (1 = 10 milliampere). Set to -1 if unknown.</field>
+        </message>
         <message id="221" name="DATA_DATA">
           <description>WIP: Reply to DATA_FETCH</description>
           <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
@@ -3918,13 +3928,13 @@
            <field type="uint16_t" name="full_log_id">ID of full sized log (this is a tiny one)</field>
          </message>
         <message id="227" name="EXTENDED_HUD">
-            <description>[WIP] Extended HUD information</description>
-            <field type="uint16_t[2]" name="rpm">RPM sensors, from 0 to MAX_INT_16</field>
-            <field type="uint16_t[2]" name="throttle">Throttle in percent from -100 to 100. 1 is main or multirotor thrust, 2 is secondary or fixed-wing thrust.</field>
+            <description>Extended HUD information.</description>
+            <field type="int16_t[2]" name="throttle">Throttle in percent * 100 from -10000 to 10000. 1 is main or multirotor thrust, 2 is secondary or fixed-wing thrust.</field>
             <field type="uint32_t" name="failures" enum="MAV_FAILURE">See MAV_FAILURE</field>
+            <field type="uint32_t" name="control_mode" enum="MAV_FAILURE">TBD, specific control mode flags.</field>
             <field type="uint32_t" name="log_time_remaining">Remaining amount of seconds for flight logging until storage is full.</field>
-            <field name="temperature" type="int16_t">Autopilot temperature (centi-degrees C)</field>
-            <field name="temperature_air" type="int16_t">Air temperature (centi-degrees C) from airspeed sensor</field>
+            <field name="temperature" type="int16_t">Autopilot temperature (centi-degrees C).</field>
+            <field name="temperature_air" type="int16_t">Air temperature (centi-degrees C) from airspeed sensor.</field>
         </message>
         <message id="228" name="MISSION_CHECK">
              <description>This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of MISSIONs.</description>
