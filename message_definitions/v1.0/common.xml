@@ -3885,7 +3885,8 @@
             <field type="int16_t[4]" name="duty">Duty cycle in percent * 100 from -10000 (reversed direction) to 10000. Set to INT16_MIN (-32766) if not available.</field>
             <field type="int16_t[4]" name="motor_temp">Motor temperature in degree Celsius * 100. Set to INT16_MIN (-32766) if not available.</field>
             <field type="int16_t[4]" name="controller_temp">Controller temperature in degree Celsius * 100. Set to INT16_MIN (-32766) if not available.</field>
-            <field type="int16_t[4]" name="controller_current">Controller current, in ampere * 100 (1 = 10 milliampere). Set to -1 if unknown.</field>
+            <field type="uint16_t[4]" name="controller_current">Controller current, in ampere * 100 (1 = 10 milliampere). Set to UINT16_MAX (65535) if unknown.</field>
+            <field type="uint16_t[4]" name="controller_voltage">Controller voltage, in millivolts (1 = 1 millivolt). Set to UINT16_MAX (65535) if unknown.</field>
         </message>
         <message id="221" name="DATA_DATA">
           <description>WIP: Reply to DATA_FETCH</description>
