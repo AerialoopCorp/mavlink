@@ -542,7 +542,7 @@
                </entry> -->
           </enum>
           <enum name="MAV_FAILURE">
-               <description>[WIP] These encode the high-level failures that might occurr</description>
+               <description>These encode the high-level failures that might occurr</description>
                <entry value="1" name="MAV_FAILURE_FW_ENGINE">
                     <description>Loss of fixed-wing thrust</description>
                </entry>
@@ -578,6 +578,21 @@
                </entry>
                <entry value="2048" name="MAV_FAILURE_DATA_LINK">
                     <description>Data link not available</description>
+               </entry>
+          </enum>
+          <enum name="MAV_CONTROL_MODE">
+               <description>Control mode flags</description>
+               <entry value="1" name="MAV_CONTROL_MODE_PREFLIGHT">
+                    <description>Pre-flight check control mode</description>
+               </entry>
+          </enum>
+          <enum name="MAV_PROCESS">
+               <description>Specific processes currently running which should normally not be interrupted</description>
+               <entry value="1" name="MAV_PROCESS_STORE_PARAMS">
+                    <description>Parameters are being stored</description>
+               </entry>
+               <entry value="2" name="MAV_PROCESS_LOG_DOWNLOAD">
+                    <description>Log download in progress</description>
                </entry>
           </enum>
           <enum name="MAV_LOG_ENTRY_INFO">
@@ -3866,10 +3881,10 @@
             <description>Actuator information message for electric motors. One message contains information of up to 4 actuators.</description>
             <field type="uint8_t" name="group">Group ID of quadruples of actuators, starting at 0.</field>
             <field type="uint8_t" name="count">Number of actuators available in this message.</field>
-            <field type="int32_t[4]" name="rpm">RPM. Set to -1 if not available.</field>
-            <field type="int16_t[4]" name="duty">Duty cycle in percent * 100 from -10000 (reversed direction) to 10000. Set to -INT16_MAX (-32768) if not available.</field>
-            <field type="int16_t[4]" name="motor_temp">Motor temperature centi-degrees * 100. Set to -INT16_MAX (-32768) if not available.</field>
-            <field type="int16_t[4]" name="controller_temp">Controller temperature centi-degrees * 100. Set to -INT16_MAX (-32768) if not available.</field>
+            <field type="int32_t[4]" name="rpm">RPM. Set to INT32_MIN (-2147483646) if not available. Negative RPM indicates reverse rotation direction. 4 byte field used since EDFs can have higher RPM than INT16_MAX (32767).</field>
+            <field type="int16_t[4]" name="duty">Duty cycle in percent * 100 from -10000 (reversed direction) to 10000. Set to INT16_MIN (-32766) if not available.</field>
+            <field type="int16_t[4]" name="motor_temp">Motor temperature in degree Celsius * 100. Set to INT16_MIN (-32766) if not available.</field>
+            <field type="int16_t[4]" name="controller_temp">Controller temperature in degree Celsius * 100. Set to INT16_MIN (-32766) if not available.</field>
             <field type="int16_t[4]" name="controller_current">Controller current, in ampere * 100 (1 = 10 milliampere). Set to -1 if unknown.</field>
         </message>
         <message id="221" name="DATA_DATA">
@@ -3930,11 +3945,13 @@
         <message id="227" name="EXTENDED_HUD">
             <description>Extended HUD information.</description>
             <field type="int16_t[2]" name="throttle">Throttle in percent * 100 from -10000 to 10000. 1 is main or multirotor thrust, 2 is secondary or fixed-wing thrust.</field>
+            <field type="int32_t[2]" name="rpm">Generic RPM fields. Set to INT32_MIN (-2147483646) if not available.</field>
             <field type="uint32_t" name="failures" enum="MAV_FAILURE">See MAV_FAILURE</field>
-            <field type="uint32_t" name="control_mode" enum="MAV_FAILURE">TBD, specific control mode flags.</field>
+            <field type="uint32_t" name="control_mode" enum="MAV_CONTROL_MODE">Autopilot specific control mode flags.</field>
+            <field type="uint16_t" name="running_processes" enum="MAV_PROCESS">Currently running processes.</field>
             <field type="uint32_t" name="log_time_remaining">Remaining amount of seconds for flight logging until storage is full.</field>
-            <field name="temperature" type="int16_t">Autopilot temperature (centi-degrees C).</field>
-            <field name="temperature_air" type="int16_t">Air temperature (centi-degrees C) from airspeed sensor.</field>
+            <field type="int16_t" name="temperature">Autopilot temperature (centi-degrees C).</field>
+            <field type="int16_t" name="temperature_air">Air temperature (centi-degrees C) from airspeed sensor.</field>
         </message>
         <message id="228" name="MISSION_CHECK">
              <description>This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of MISSIONs.</description>
