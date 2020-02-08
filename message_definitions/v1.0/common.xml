@@ -3882,7 +3882,8 @@
             <field type="uint8_t" name="group">Group ID of quadruples of actuators, starting at 0.</field>
             <field type="uint8_t" name="count">Number of actuators available in this message.</field>
             <field type="int32_t[4]" name="rpm">RPM. Set to INT32_MIN (-2147483646) if not available. Negative RPM indicates reverse rotation direction. 4 byte field used since EDFs can have higher RPM than INT16_MAX (32767).</field>
-            <field type="int16_t[4]" name="duty">Duty cycle in percent * 100 from -10000 (reversed direction) to 10000. Set to INT16_MIN (-32766) if not available.</field>
+            <field type="int16_t[4]" name="duty_in">Duty cycle target in percent * 100 from -10000 (reversed direction) to 10000. Set to INT16_MIN (-32766) if not available.</field>
+            <field type="int16_t[4]" name="duty_out">Duty cycle of motor in percent * 100 from -10000 (reversed direction) to 10000. Set to INT16_MIN (-32766) if not available.</field>
             <field type="int16_t[4]" name="motor_temp">Motor temperature in degree Celsius * 100. Set to INT16_MIN (-32766) if not available.</field>
             <field type="int16_t[4]" name="controller_temp">Controller temperature in degree Celsius * 100. Set to INT16_MIN (-32766) if not available.</field>
             <field type="uint16_t[4]" name="controller_current">Controller current, in ampere * 100 (1 = 10 milliampere). Set to UINT16_MAX (65535) if unknown.</field>
