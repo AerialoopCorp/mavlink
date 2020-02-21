@@ -1797,6 +1797,10 @@
                   <param index="2">Actuator command. 0 for roll, 1 for pitch, 2 for yaw. Channels will be set for actuator groups 0 and 1 if the are not motor channels.</param>
                   <param index="3">Actuator channel value to set (between -1 and 1)</param>
               </entry>
+              <entry value="40001" name="MAV_CMD_DO_WAIT">
+                  <description>Pauses the mission flow, keeping the current setpoint. Not a valid command outside missions.</description>
+                  <param index="1">Time in seconds to wait</param>
+              </entry>
               <!-- AirRails internal commands starting with 50000 -->
           </enum>
           <enum name="MAV_DATA_STREAM">
