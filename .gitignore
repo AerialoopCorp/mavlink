@@ -2,7 +2,6 @@
 tags
 doc/html
 doc/*.log
-missionlib/testing/*.xcodeproj/*
 .DS_Store
 build*
 .nfs*
@@ -25,4 +24,6 @@ pymavlink.egg-info/
 *.cproject
 include/
 .tags*
+*.pyc
 include/mavlink/v1.0
+.idea
