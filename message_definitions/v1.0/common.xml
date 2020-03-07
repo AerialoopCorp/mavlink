@@ -827,7 +827,27 @@
       <entry value="33554432" name="MAV_SYS_STATUS_SENSOR_BATTERY">
         <description>0x2000000 Battery</description>
       </entry>
-      <entry value="67108864" name="MAV_SYS_STATUS_SENSOR_PROXIMITY">
+      <entry value="67108864" name="MAV_SYS_STATUS_STORAGE">
+        <description>0x4000000 Onboard storage health</description>
+      </entry>
+      <entry value="134217728" name="MAV_SYS_STATUS_GYRO_CONSISTENT">
+        <description>0x8000000 Gyros are consistent</description>
+      </entry>
+      <entry value="268435456" name="MAV_SYS_STATUS_ACCEL_CONSISTENT">
+        <description>0x10000000 Accels are consistent</description>
+      </entry>
+      <entry value="536870912" name="MAV_SYS_STATUS_MAG_CONSISTENT">
+        <description>0x20000000 Mags are consistent</description>
+      </entry>
+      <entry value="1073741824" name="MAV_SYS_STATUS_AVIONICS_POWER">
+        <description>0x40000000 Avionics power ok</description>
+      </entry>
+      <!-- FIXME: This is used but commented because the Java generator can't handle the number (needs a datatype change) -->
+      <!-- <entry value="2147483648" name="MAV_SYS_STATUS_SAFETY">
+        <description>0x80000000 Safety</description>
+      </entry> -->
+      <!-- From common.xml: -->
+      <!-- <entry value="67108864" name="MAV_SYS_STATUS_SENSOR_PROXIMITY">
         <description>0x4000000 Proximity</description>
       </entry>
       <entry value="134217728" name="MAV_SYS_STATUS_SENSOR_SATCOM">
@@ -838,6 +858,69 @@
       </entry>
       <entry value="536870912" name="MAV_SYS_STATUS_OBSTACLE_AVOIDANCE">
         <description>0x20000000 Avoidance/collision prevention</description>
+      </entry> -->
+    </enum>
+    <enum name="MAV_FAILURE">
+      <description>These encode the high-level failures that might occurr</description>
+      <entry value="1" name="MAV_FAILURE_FW_ENGINE">
+        <description>Loss of fixed-wing thrust</description>
+      </entry>
+      <entry value="2" name="MAV_FAILURE_VTOL_TRANSITION">
+        <description>VTOL fixed-wing flight not possible or aborted</description>
+      </entry>
+      <entry value="4" name="MAV_FAILURE_MISSION">
+        <description>Mission cannot be continued for some reason</description>
+      </entry>
+      <entry value="8" name="MAV_FAILURE_GPOS">
+        <description>Global position not available</description>
+      </entry>
+      <entry value="16" name="MAV_FAILURE_ALTITUDE">
+        <description>Unexpected loss of altitude</description>
+      </entry>
+      <entry value="32" name="MAV_FAILURE_MIN_ALTITUDE">
+        <description>Minimum altitude violation</description>
+      </entry>
+      <entry value="64" name="MAV_FAILURE_AIRSPEED">
+        <description>Airspeed not available</description>
+      </entry>
+      <entry value="128" name="MAV_FAILURE_BATTERY_LOW">
+        <description>Airspeed not available</description>
+      </entry>
+      <entry value="256" name="MAV_FAILURE_BATTERY_CRITICAL">
+        <description>Airspeed not available</description>
+      </entry>
+      <entry value="512" name="MAV_FAILURE_TERRAIN">
+        <description>Terrain estimate not available</description>
+      </entry>
+      <entry value="1024" name="MAV_FAILURE_MANUAL_CONTROL">
+        <description>Manual control not available</description>
+      </entry>
+      <entry value="2048" name="MAV_FAILURE_DATA_LINK">
+        <description>Data link not available</description>
+      </entry>
+    </enum>
+    <enum name="MAV_CONTROL_MODE">
+      <description>Control mode flags</description>
+      <entry value="1" name="MAV_CONTROL_MODE_PREFLIGHT">
+        <description>Pre-flight check control mode</description>
+      </entry>
+    </enum>
+    <enum name="MAV_LOG_ENTRY_INFO">
+      <description>[WIP] These encode log file information</description>
+      <entry value="1" name="MAV_LOG_ENTRY_INFO_ULG">
+        <description>This log is in ULOG format</description>
+      </entry>
+      <entry value="2" name="MAV_LOG_ENTRY_INFO_INAIR">
+        <description>In this log the vehicle was in-air</description>
+      </entry>
+    </enum>
+    <enum name="MAV_PROCESS">
+      <description>Specific processes currently running which should normally not be interrupted</description>
+      <entry value="1" name="MAV_PROCESS_STORE_PARAMS">
+        <description>Parameters are being stored</description>
+      </entry>
+      <entry value="2" name="MAV_PROCESS_LOG_DOWNLOAD">
+        <description>Log download in progress</description>
       </entry>
     </enum>
     <enum name="MAV_FRAME">
@@ -1302,6 +1385,7 @@
       <entry value="21" name="MAV_CMD_NAV_LAND" hasLocation="true" isDestination="true">
         <description>Land at location.</description>
         <param index="1" label="Abort Alt" units="m">Minimum target altitude if landing is aborted (0 = undefined/use system default).</param>
+        <!-- AirRails: TBD -->
         <param index="2" label="Land Mode" enum="PRECISION_LAND_MODE">Precision land mode.</param>
         <param index="3">Empty.</param>
         <param index="4" label="Yaw Angle" units="deg">Desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).</param>
@@ -1434,8 +1518,10 @@
       </entry>
       <entry value="84" name="MAV_CMD_NAV_VTOL_TAKEOFF" hasLocation="true" isDestination="true">
         <description>Takeoff from ground using VTOL mode, and transition to forward flight with specified heading.</description>
-        <param index="1">Empty</param>
-        <param index="2" label="Transition Heading" enum="VTOL_TRANSITION_HEADING">Front transition heading.</param>
+        <param index="1" label="Transition Heading">0: Use heading to next waypoint (or this one if it's far away) for transition. 1: Use heading depending on weather-vaning for transition.</param>
+        <!-- Note: Not used -->
+        <!-- <param index="2" label="Transition Heading" enum="VTOL_TRANSITION_HEADING">Front transition heading.</param> -->
+        <param index="2">Empty</param>
         <param index="3">Empty</param>
         <param index="4" label="Yaw Angle" units="deg">Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).</param>
         <param index="5">Latitude</param>
@@ -1445,8 +1531,11 @@
       <entry value="85" name="MAV_CMD_NAV_VTOL_LAND" hasLocation="true" isDestination="true">
         <description>Land using VTOL mode</description>
         <param index="1">Empty</param>
-        <param index="2">Empty</param>
-        <param index="3" label="Altitude">Approach altitude (with the same reference as the Altitude field). NaN if unspecified.</param>
+        <!-- AirRails: TBD -->
+        <param index="2" label="Land Mode" enum="PRECISION_LAND_MODE">Precision land mode.</param>
+        <!-- AirRails: Not used -->
+        <!-- <param index="3" label="Altitude">Approach altitude (with the same reference as the Altitude field). NaN if unspecified.</param> -->
+        <param index="3">Empty</param>
         <param index="4" label="Yaw" units="deg">Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).</param>
         <param index="5">Latitude</param>
         <param index="6">Longitude</param>
@@ -1957,7 +2046,8 @@
         <param index="3" label="Ground Pressure" minValue="0" maxValue="1" increment="1">1: ground pressure calibration</param>
         <param index="4" label="Remote Control" minValue="0" maxValue="1" increment="1">1: radio RC calibration, 2: RC trim calibration</param>
         <param index="5" label="Accelerometer" minValue="0" maxValue="4" increment="1">1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration, 4: simple accelerometer calibration</param>
-        <param index="6" label="Compmot or Airspeed" minValue="0" maxValue="2" increment="1">1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration</param>
+        <!-- AirRails: Additional -->
+        <param index="6" label="Compmot or Airspeed" minValue="0" maxValue="3" increment="1">1: APM: compass/motor interference calibration, 2: airspeed calibration, 3: compass/motor interference calibration</param>
         <param index="7" label="ESC or Baro" minValue="0" maxValue="3" increment="1">1: ESC calibration, 3: barometer temperature calibration</param>
       </entry>
       <entry value="242" name="MAV_CMD_PREFLIGHT_SET_SENSOR_OFFSETS" hasLocation="false" isDestination="false">
@@ -2571,6 +2661,14 @@
         <param index="7">User defined</param>
       </entry>
       <!-- END of user range (31000 to 31999) -->
+      <!-- AirRails custom commands -->
+      <entry value="40000" name="MAV_CMD_PREFLIGHT_ACTUATOR_CHECK">
+        <description>This command is used to check actuator controls in preflight.</description>
+        <param index="1">Requested actuator check mode, see PREFLIGHT_ACTUATOR_CHECK_REQUEST</param>
+        <param index="2">Actuator command. 0 for roll, 1 for pitch, 2 for yaw. Channels will be set for actuator groups 0 and 1 if the are not motor channels.</param>
+        <param index="3">Actuator channel value to set (between -1 and 1)</param>
+      </entry>
+      <!-- AirRails internal commands starting with 50000 -->
     </enum>
     <enum name="MAV_DATA_STREAM">
       <deprecated since="2015-06" replaced_by="MESSAGE_INTERVAL"/>
@@ -3521,7 +3619,7 @@
         <description>Landing target represented by a pre-defined visual shape/feature (ex: X-marker, H-marker, square)</description>
       </entry>
     </enum>
-    <enum name="VTOL_TRANSITION_HEADING">
+    <!-- <enum name="VTOL_TRANSITION_HEADING">
       <description>Direction of VTOL transition</description>
       <entry value="0" name="VTOL_TRANSITION_HEADING_VEHICLE_DEFAULT">
         <description>Respect the heading configuration of the vehicle.</description>
@@ -3538,7 +3636,7 @@
       <entry value="4" name="VTOL_TRANSITION_HEADING_ANY">
         <description>Use the current heading when reaching takeoff altitude (potentially facing the wind when weather-vaning is active).</description>
       </entry>
-    </enum>
+    </enum> -->
     <enum name="CAMERA_CAP_FLAGS">
       <description>Camera capability flags (Bitmap)</description>
       <entry value="1" name="CAMERA_CAP_FLAGS_CAPTURE_VIDEO">
@@ -4281,6 +4379,49 @@
       </entry>
       <entry value="2048" name="AIS_FLAGS_VALID_CALLSIGN"/>
       <entry value="4096" name="AIS_FLAGS_VALID_NAME"/>
+    </enum>
+    <!-- AirRails enums -->
+    <enum name="LICENSE_TYPE">
+      <description/>
+      <entry value="0" name="NO_LICENSING">
+        <description>Free version</description>
+      </entry>
+      <entry value="1" name="CHECKING">
+        <description>Checking license</description>
+      </entry>
+      <entry value="2" name="INVALID">
+        <description>Invalid license set</description>
+      </entry>
+      <entry value="3" name="TRIAL">
+        <description>In trial mode</description>
+      </entry>
+      <entry value="4" name="VALID">
+        <description>Valid license set</description>
+      </entry>
+      <entry value="5" name="EXPIRED">
+        <description>Trial or actual license is expired</description>
+      </entry>
+    </enum>
+    <enum name="PREFLIGHT_ACTUATOR_CHECK_REQUEST">
+      <description/>
+      <entry value="0" name="STOP_ACTUATOR_CHECK">
+        <description>Stop actuator check mode. Will be acknowledgegd.</description>
+      </entry>
+      <entry value="1" name="CHECK_CONTROL_SURFACES">
+        <description>Put vehicle into actuator check mode and enables set check according to parameters set. Will be acknowledgegd.</description>
+      </entry>
+      <entry value="2" name="CHECK_RC_AND_MODE">
+        <description>Verify that RC switches are in correct position (hover and mission set) and that we are in the correct mode (hover). If no RC is present the RC checks will return true.</description>
+      </entry>
+    </enum>
+    <enum name="DATA_ITEM_TYPE">
+      <description>Data item types for generic data transfer. The enum entry names correspond to the MAVLink message for transferring the requested data items.</description>
+      <entry value="0" name="CAMERA_IMAGE_CAPTURED_V1">
+        <description/>
+      </entry>
+      <entry value="1" name="LOG_ENTRY">
+        <description/>
+      </entry>
     </enum>
   </enums>
   <messages>
@@ -5598,6 +5739,7 @@
       <field type="uint8_t" name="battery_function" enum="MAV_BATTERY_FUNCTION">Function of the battery</field>
       <field type="uint8_t" name="type" enum="MAV_BATTERY_TYPE">Type (chemistry) of the battery</field>
       <field type="int16_t" name="temperature" units="cdegC">Temperature of the battery. INT16_MAX for unknown temperature.</field>
+      <!-- AirRails: We provide the total voltage of the battery in field 0 of voltages -->
       <field type="uint16_t[10]" name="voltages" units="mV">Battery voltage of cells. Cells above the valid cell count for this battery should have the UINT16_MAX value. If individual cell voltages are unknown or not measured for this battery, then the overall battery voltage should be filled in cell 0, with all others set to UINT16_MAX. If the voltage of the battery is greater than (UINT16_MAX - 1), then cell 0 should be set to (UINT16_MAX - 1), and cell 1 to the remaining voltage. This can be extended to multiple cells if the total voltage is greater than 2 * (UINT16_MAX - 1).</field>
       <field type="int16_t" name="current_battery" units="cA">Battery current, -1: autopilot does not measure the current</field>
       <field type="int32_t" name="current_consumed" units="mAh">Consumed charge, -1: autopilot does not provide consumption estimate</field>
@@ -5641,6 +5783,19 @@
       <field type="uint8_t" name="type" enum="LANDING_TARGET_TYPE">Type of landing target</field>
       <field type="uint8_t" name="position_valid">Boolean indicating whether the position fields (x, y, z, q, type) contain valid target position information (valid: 1, invalid: 0). Default is 0 (invalid).</field>
     </message>
+    <!-- AirRails: V1 addition -->
+    <message id="150" name="LANDING_TARGET_LSF_INT">
+      <description>The location of a landing area captured from LSF</description>
+      <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+      <field type="uint16_t" name="target_id">The ID of the target if multiple targets are present</field>
+      <field type="uint8_t" name="frame">The coordinate system of the LANDING_TARGET_LSF_INT. see MAV_FRAME in mavlink_types.h</field>
+      <field type="uint8_t" name="radius">Radius of the landing site in meters</field>
+      <field type="int32_t" name="x">local: x position in meters * 1e4, global: latitude in degrees * 10^7</field>
+      <field type="int32_t" name="y">local: y position in meters * 1e4, global: longitude in degrees *10^7</field>
+      <field type="float" name="z">altitude in meters (relative or absolute, depending on frame.</field>
+      <field type="uint8_t" name="rank">Percentage; indicates suitability of this site for landing</field>
+      <field type="float[4]" name="q">Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)</field>
+    </message>
     <!-- imported from ardupilotmega.xml (2019) -->
     <message id="162" name="FENCE_STATUS">
       <description>Status of geo-fencing. Sent in extended status stream when fencing enabled.</description>
@@ -5652,6 +5807,118 @@
       <field type="uint8_t" name="breach_mitigation" enum="FENCE_MITIGATE">Active action to prevent fence breach</field>
     </message>
     <!-- MESSAGE IDs 180 - 229: Space for custom messages in individual projectname_messages.xml files -->
+    <!-- AirRails: V1 addition -->
+    <message id="180" name="TERRAIN_SENSOR">
+      <description>Terrain sensing information from an onboard system</description>
+      <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+      <field type="uint16_t" name="lookahead_offset">Required vertical offset from current ground distance to avoid approaching terrain / obstacles</field>
+    </message>
+    <message id="181" name="DISTANCE_SENSOR_SYNCED">
+      <description>Distance sensor data with support for time synchronisation. Note: Temporary! Should be replaced with an extension to the old DISTANCE_SENSOR message.</description>
+      <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+      <field type="uint16_t" name="min_distance">Minimum distance the sensor can measure in centimeters</field>
+      <field type="uint16_t" name="max_distance">Maximum distance the sensor can measure in centimeters</field>
+      <field type="uint16_t" name="current_distance">Current distance reading</field>
+      <field type="uint8_t" name="type">Type from MAV_DISTANCE_SENSOR enum.</field>
+      <field type="uint8_t" name="id">Onboard ID of the sensor</field>
+      <field type="uint8_t" name="orientation">Direction the sensor faces from MAV_SENSOR_ORIENTATION enum.</field>
+      <field type="uint8_t" name="covariance">Measurement covariance in centimeters, 0 for unknown / invalid readings</field>
+    </message>
+    <message id="220" name="MOTOR_ACTUATOR_DATA">
+      <description>Actuator information message for electric motors. One message contains information of up to 4 actuators.</description>
+      <field type="uint8_t" name="group">Group ID of quadruples of actuators, starting at 0.</field>
+      <field type="uint8_t" name="count">Number of actuators available in this message.</field>
+      <field type="int32_t[4]" name="rpm">RPM. Set to INT32_MIN (-2147483646) if not available. Negative RPM indicates reverse rotation direction. 4 byte field used since EDFs can have higher RPM than INT16_MAX (32767).</field>
+      <field type="int16_t[4]" name="duty_in">Duty cycle target in percent * 100 from -10000 (reversed direction) to 10000. Set to INT16_MIN (-32766) if not available.</field>
+      <field type="int16_t[4]" name="duty_out">Duty cycle of motor in percent * 100 from -10000 (reversed direction) to 10000. Set to INT16_MIN (-32766) if not available.</field>
+      <field type="int16_t[4]" name="motor_temp">Motor temperature in degree Celsius * 100. Set to INT16_MIN (-32766) if not available.</field>
+      <field type="int16_t[4]" name="controller_temp">Controller temperature in degree Celsius * 100. Set to INT16_MIN (-32766) if not available.</field>
+      <field type="uint16_t[4]" name="controller_current">Controller current, in ampere * 100 (1 = 10 milliampere). Set to UINT16_MAX (65535) if unknown.</field>
+      <field type="uint16_t[4]" name="controller_voltage">Controller voltage, in millivolts (1 = 1 millivolt). Set to UINT16_MAX (65535) if unknown.</field>
+    </message>
+    <message id="221" name="DATA_DATA">
+      <description>WIP: Reply to DATA_FETCH</description>
+      <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
+      <field type="uint32_t" name="item_id">ID of item to fetch data from</field>
+      <field type="uint32_t" name="offset">Offset into the item data</field>
+      <field type="uint8_t" name="count">Number of bytes (zero for end of data)</field>
+      <field type="uint8_t[240]" name="data">log data</field>
+    </message>
+    <message id="222" name="DATA_FETCH">
+      <description>WIP: Fetch binary data from a previously listed data item. How the maximum available data is made known to the requesting system is item type specific and has to be taken care of in the respecting item message sent for a DATA_LIST request. The response to DATA_FETCH will be a stream of DATA_DATA. To stop the stream, send DATA_FETCH with a 'count' of 0.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
+      <field type="uint32_t" name="item_id">ID of item to fetch data from</field>
+      <field type="uint32_t" name="offset">Offset into the item data</field>
+      <field type="uint32_t" name="count">Number of bytes to fetch</field>
+    </message>
+    <message id="223" name="DATA_AVAILABLE">
+      <description>WIP: Answer to DATA_LIST to confirm number of available itmes. If no DATA_LIST is preceeding DATA_AVAILABLE it is expected that the receiving system will now start requesting the available items to store them. Successful fetch and store of all items will be confirmed by a DATA_AVAILABLE with 'count' confirming the number of fetched items. To delete all existing items on the receiving system 'count' can be set to 0, the successful deletion will be confirmed by a DATA_AVAILABLE with 'count' 0.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
+      <field type="uint32_t" name="count">Number of items available or number of items that shall be received</field>
+    </message>
+    <message id="224" name="DATA_LIST">
+      <description>WIP: Request a list of stored data items. If 'end' is set to 0xffffffff the receiving system will inform with DATA_AVAILABLE the number of available items. If 'end' is set to a value below 0xffffffff but above or equal 'start' the receiving system will begin streaming the range of items requested. If the range cannot be machted with available data the receiving system shall reply with DATA_AVAILABLE indicating the current count.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
+      <field type="uint32_t" name="start">First item id (0 for first available)</field>
+      <field type="uint32_t" name="end">Last item id (0xffffffff for last available)</field>
+    </message>
+    <message id="225" name="CAMERA_IMAGE_CAPTURED_V1">
+      <description>Information about a captured image</description>
+      <field type="uint32_t" name="time_boot_ms">Timestamp (milliseconds since system boot)</field>
+      <field type="uint64_t" name="time_utc">Timestamp (microseconds since UNIX epoch) in UTC. 0 for unknown.</field>
+      <field type="uint8_t" name="camera_id">Camera ID (1 for first, 2 for second, etc.)</field>
+      <field type="uint32_t" name="sequence">Zero based index of this image</field>
+      <field type="int32_t" name="lat">Latitude, expressed as degrees * 1E7 where image was taken</field>
+      <field type="int32_t" name="lon">Longitude, expressed as degrees * 1E7 where capture was taken</field>
+      <field type="int32_t" name="alt">Altitude in meters, expressed as * 1E3 (AMSL, not WGS84) where image was taken</field>
+      <field type="int32_t" name="relative_alt">Altitude above ground in meters, expressed as * 1E3 where image was taken</field>
+      <field type="float[4]" name="q">Quaternion of camera orientation (w, x, y, z order, zero-rotation is 0, 0, 0, 0)</field>
+      <field type="int8_t" name="capture_result">Boolean indicating success (1) or failure (0) while capturing this image.</field>
+    </message>
+    <message id="226" name="EXTENDED_LOG_ENTRY">
+      <description>Reply to LOG_REQUEST_LIST</description>
+      <field type="uint16_t" name="id">Log id</field>
+      <field type="uint16_t" name="num_logs">Total number of logs</field>
+      <field type="uint16_t" name="last_log_num">High log number</field>
+      <field type="uint32_t" name="time_utc">UTC timestamp of log in seconds since 1970, or 0 if not available</field>
+      <field type="uint32_t" name="size">Size of the log (may be approximate) in bytes</field>
+      <field type="uint8_t" name="info" enum="MAV_LOG_ENTRY_INFO">See MAV_LOG_ENTRY_INFO</field>
+      <field type="uint16_t" name="full_log_id">ID of full sized log (this is a tiny one)</field>
+    </message>
+    <message id="227" name="EXTENDED_HUD">
+      <description>Extended HUD information.</description>
+      <field type="int16_t[2]" name="throttle">Throttle in percent * 100 from -10000 to 10000. 1 is main or multirotor thrust, 2 is secondary or fixed-wing thrust.</field>
+      <field type="int32_t[2]" name="rpm">Generic RPM fields. Set to INT32_MIN (-2147483646) if not available.</field>
+      <field type="uint32_t" name="failures" enum="MAV_FAILURE">See MAV_FAILURE</field>
+      <field type="uint32_t" name="control_mode" enum="MAV_CONTROL_MODE">Autopilot specific control mode flags.</field>
+      <field type="uint16_t" name="running_processes" enum="MAV_PROCESS">Currently running processes.</field>
+      <field type="uint32_t" name="log_time_remaining">Remaining amount of seconds for flight logging until storage is full.</field>
+      <field type="int16_t" name="temperature">Autopilot temperature (centi-degrees C).</field>
+      <field type="int16_t" name="temperature_air">Air temperature (centi-degrees C) from airspeed sensor.</field>
+    </message>
+    <message id="228" name="MISSION_CHECK">
+      <description>This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of MISSIONs.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="uint16_t" name="count">Number of mission items in the sequence</field>
+      <field type="uint32_t" name="crc">CRC over full mission. Primarily serves as a version check.</field>
+    </message>
+    <message id="229" name="LICENSE_STATUS">
+      <description/>
+      <field type="uint8_t" name="license_type">See enum LICENSE_TYPE</field>
+      <field type="uint32_t" name="time_utc">Current UTC, 0 if not available</field>
+      <field type="uint32_t" name="build_time_utc">Firmware build time UTC</field>
+      <field type="uint32_t" name="end_time_utc">License expiration time, 0 if unlimited</field>
+      <field type="uint8_t[12]" name="uid">Board UID</field>
+      <field type="uint8_t[16]" name="reserve">Reserve</field>
+    </message>
+    <!-- AirRails: End v1 additions -->
     <message id="230" name="ESTIMATOR_STATUS">
       <description>Estimator status message including flags, innovation test ratios and estimated accuracies. The flags message is an integer bitmask containing information on which EKF outputs are valid. See the ESTIMATOR_STATUS_FLAGS enum definition for further information. The innovation test ratios show the magnitude of the sensor innovation divided by the innovation check threshold. Under normal operation the innovation test ratios should be below 0.5 with occasional values up to 1.0. Values greater than 1.0 should be rare under normal operation and indicate that a measurement has been rejected by the filter. The user should be notified if an innovation test ratio greater than 1.0 is recorded. Notifications for values in the range between 0.5 and 1.0 should be optional and controllable by the user.</description>
       <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.</field>
