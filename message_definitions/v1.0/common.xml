@@ -898,6 +898,12 @@
       <entry value="2048" name="MAV_FAILURE_DATA_LINK">
         <description>Data link not available</description>
       </entry>
+      <entry value="4096" name="MAV_FAILURE_VOTED_SENSOR">
+        <description>A voted sensor failure has been detected (accel, gyro, mag, baro and dpres)</description>
+      </entry>
+      <entry value="8192" name="MAV_FAILURE_MISSION_INVALID">
+        <description>The currently uloaded mission failed feasibility checks</description>
+      </entry>
     </enum>
     <enum name="MAV_CONTROL_MODE">
       <description>Control mode flags</description>
