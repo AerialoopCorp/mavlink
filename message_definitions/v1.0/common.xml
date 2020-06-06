@@ -5914,6 +5914,8 @@
       <field type="uint8_t" name="target_component">Component ID</field>
       <field type="uint16_t" name="count">Number of mission items in the sequence</field>
       <field type="uint32_t" name="crc">CRC over full mission. Primarily serves as a version check.</field>
+      <extensions/>
+      <field type="uint8_t" name="mission_type" enum="MAV_MISSION_TYPE">Mission type.</field>
     </message>
     <message id="229" name="LICENSE_STATUS">
       <description/>
