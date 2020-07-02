@@ -4419,6 +4419,10 @@
       <entry value="2" name="CHECK_RC_AND_MODE">
         <description>Verify that RC switches are in correct position (hover and mission set) and that we are in the correct mode (hover). If no RC is present the RC checks will return true.</description>
       </entry>
+      <entry value="3" name="TRIM_MODE">
+        <description>Put vehicle into trim mode where the main actuator
+          controls (0 to 4 on group 0 and 1) will output direct manual control and additional actuator controls will behave according to the vehicle type.</description>
+      </entry>
     </enum>
     <enum name="DATA_ITEM_TYPE">
       <description>Data item types for generic data transfer. The enum entry names correspond to the MAVLink message for transferring the requested data items.</description>
