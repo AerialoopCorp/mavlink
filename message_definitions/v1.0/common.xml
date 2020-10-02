@@ -2674,6 +2674,16 @@
         <param index="2">Actuator command. 0 for roll, 1 for pitch, 2 for yaw. Channels will be set for actuator groups 0 and 1 if the are not motor channels.</param>
         <param index="3">Actuator channel value to set (between -1 and 1)</param>
       </entry>
+      <entry value="40100" name="MAV_CMD_SET_AB_ALTITUDE">
+        <description>Set the current AB altitude to follow.</description>
+        <param index="1">Altitude setpoint for AB following.</param>
+      </entry>
+      <entry value="40101" name="MAV_CMD_SET_AB_POSITION">
+        <description>Set the current AB position to use for line tracking. Select which point to set in param1. Use COMMAND_INT to transmit this command.</description>
+        <param index="1">Set to 0 for point A, set to 1 for point B.</param>
+        <param index="5">A/B latitude as degrees * 1e7</param>
+        <param index="6">A/B longitude as degrees * 1e7</param>
+      </entry>
       <!-- AirRails internal commands starting with 50000 -->
     </enum>
     <enum name="MAV_DATA_STREAM">
@@ -4431,6 +4441,21 @@
       </entry>
       <entry value="1" name="LOG_ENTRY">
         <description/>
+      </entry>
+    </enum>
+    <enum name="CROP_SPRAYING_MODE">
+      <description>Crop spraying AB mode state.</description>
+      <entry value="0" name="NONE">
+        <description/>
+      </entry>
+      <entry value="1" name="A_SET">
+        <description/>
+      </entry>
+      <entry value="2" name="AB_SET">
+        <description>AB positions are set and copter is in line tracking mode.</description>
+      </entry>
+      <entry value="3" name="AB_SET_NOT_ENGAGED">
+        <description>AB positions are set but line tracking is not enabled at the moment.</description>
       </entry>
     </enum>
   </enums>
@@ -6828,5 +6853,16 @@
       <field type="uint8_t" name="msg_pack_size">Number of encoded messages in the pack (not the number of bytes). Allowed range is 1 - 10.</field>
       <field type="uint8_t[250]" name="messages">Concatenation of encoded OpenDroneID messages. Shall be filled with nulls in the unused portion of the field.</field>
     </message>
+    <!-- AirRails: v2 custom messages, 40000 to 41999 -->
+    <message id="40100" name="CROP_SPRAYING_STATUS">
+      <description>Status information for crop spraying specific operation.</description>
+      <field type="uint8_t" name="mode" enum="CROP_SPRAYING_MODE">Current operating mode</field>
+      <field type="float" name="agl_setpoint" units="m">Current AGL setpoint</field>
+      <field type="int32_t" name="a_lat">A latitude in degrees * 10^7</field>
+      <field type="int32_t" name="a_lon">A longitude in degrees * 10^7</field>
+      <field type="int32_t" name="b_lat">B latitude in degrees * 10^7</field>
+      <field type="int32_t" name="b_lon">B longitude in degrees * 10^7</field>
+    </message>
+    <!-- AirRails: End v2 custom messages -->
   </messages>
 </mavlink>
