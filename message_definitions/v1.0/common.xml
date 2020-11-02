@@ -2684,6 +2684,10 @@
         <param index="5">A/B latitude as degrees * 1e7</param>
         <param index="6">A/B longitude as degrees * 1e7</param>
       </entry>
+      <entry value="40102" name="MAV_CMD_SET_AB_ENABLED">
+        <description>Turn AB tracking on or off. The AB positions need to be set in order to enable it.</description>
+        <param index="1">0 = disable, 1 = enable</param>
+      </entry>
       <!-- AirRails internal commands starting with 50000 -->
     </enum>
     <enum name="MAV_DATA_STREAM">
