@@ -5882,6 +5882,7 @@
       <field type="int32_t" name="relative_alt">Altitude above ground in meters, expressed as * 1E3 where image was taken</field>
       <field type="float[4]" name="q">Quaternion of camera orientation (w, x, y, z order, zero-rotation is 0, 0, 0, 0)</field>
       <field type="int8_t" name="capture_result">Boolean indicating success (1) or failure (0) while capturing this image.</field>
+      <field type="uint8_t" name="state">Bit field indicating additional information when this was captured; bit 0: armed.</field>
     </message>
     <message id="220" name="MOTOR_ACTUATOR_DATA">
       <description>Actuator information message for electric motors. One message contains information of up to 4 actuators.</description>
