@@ -3910,8 +3910,14 @@
       <entry value="1" name="PRECISION_LAND_MODE_OPPORTUNISTIC">
         <description>Use precision landing if beacon detected when land command accepted, otherwise land normally.</description>
       </entry>
-      <entry value="2" name="PRECISION_LAND_MODE_REQUIRED">
+      <entry value="2" name="PRECISION_LAND_MODE_TARGET">
         <description>Use precision landing, searching for beacon if not found when land command accepted (land normally if beacon cannot be found).</description>
+      </entry>
+      <entry value="3" name="PRECISION_LAND_MODE_RTK">
+        <description>Use precision landing. We need RTK for landing on the normal waypoint coordinates.</description>
+      </entry>
+      <entry value="4" name="PRECISION_LAND_MODE_LSF">
+        <description>Use precision landing. We need LSF.</description>
       </entry>
     </enum>
     <!-- parachute action enum -->
@@ -4446,8 +4452,8 @@
       </entry>
     </enum>
     <enum name="DATA_ITEM_TYPE">
-      <description>Data item types for generic data transfer. The enum entry names correspond to the MAVLink message for transferring the requested data items.</description>
-      <entry value="0" name="CAMERA_IMAGE_CAPTURED_V1">
+      <description>Data item types for generic data transfer. The enum entry names correspond to the MAVLink message for transferring the requested data items. Each DATA_ITEM_TYPE message is required to have a uint32_t ID field called data_id uniquely identifying the item within the list.</description>
+      <entry value="0" name="CAMERA_IMAGE_CAPTURED_DATA">
         <description/>
       </entry>
       <entry value="1" name="LOG_ENTRY">
@@ -5870,6 +5876,21 @@
       <field type="uint8_t" name="orientation">Direction the sensor faces from MAV_SENSOR_ORIENTATION enum.</field>
       <field type="uint8_t" name="covariance">Measurement covariance in centimeters, 0 for unknown / invalid readings</field>
     </message>
+    <message id="219" name="CAMERA_IMAGE_CAPTURED_DATA">
+      <description>Information about a captured image</description>
+      <field type="uint32_t" name="data_id">Data item ID</field>
+      <field type="uint32_t" name="time_boot_ms">Timestamp (milliseconds since system boot)</field>
+      <field type="uint64_t" name="time_utc">Timestamp (microseconds since UNIX epoch) in UTC. 0 for unknown.</field>
+      <field type="uint8_t" name="camera_id">Camera ID (1 for first, 2 for second, etc.)</field>
+      <field type="uint32_t" name="sequence">Zero based index of this image</field>
+      <field type="int32_t" name="lat">Latitude, expressed as degrees * 1E7 where image was taken</field>
+      <field type="int32_t" name="lon">Longitude, expressed as degrees * 1E7 where capture was taken</field>
+      <field type="int32_t" name="alt">Altitude in meters, expressed as * 1E3 (AMSL, not WGS84) where image was taken</field>
+      <field type="int32_t" name="relative_alt">Altitude above ground in meters, expressed as * 1E3 where image was taken</field>
+      <field type="float[4]" name="q">Quaternion of camera orientation (w, x, y, z order, zero-rotation is 0, 0, 0, 0)</field>
+      <field type="int8_t" name="capture_result">Boolean indicating success (1) or failure (0) while capturing this image.</field>
+      <field type="uint8_t" name="state">Bit field indicating additional information when this was captured; bit 0: armed.</field>
+    </message>
     <message id="220" name="MOTOR_ACTUATOR_DATA">
       <description>Actuator information message for electric motors. One message contains information of up to 4 actuators.</description>
       <field type="uint8_t" name="group">Group ID of quadruples of actuators, starting at 0.</field>
@@ -5900,14 +5921,20 @@
       <field type="uint32_t" name="count">Number of bytes to fetch</field>
     </message>
     <message id="223" name="DATA_AVAILABLE">
-      <description>WIP: Answer to DATA_LIST to confirm number of available itmes. If no DATA_LIST is preceeding DATA_AVAILABLE it is expected that the receiving system will now start requesting the available items to store them. Successful fetch and store of all items will be confirmed by a DATA_AVAILABLE with 'count' confirming the number of fetched items. To delete all existing items on the receiving system 'count' can be set to 0, the successful deletion will be confirmed by a DATA_AVAILABLE with 'count' 0.</description>
+      <description>WIP: Answer to DATA_LIST to confirm number of available itmes.
+
+        If no DATA_LIST is preceeding DATA_AVAILABLE it is expected that the receiving system will now start requesting the available items to store them. Successful fetch and store of all items will be confirmed by a DATA_AVAILABLE with 'count' confirming the number of fetched items.
+
+        To delete all existing items on the receiving system 'count' can be set to 0, the successful deletion will be confirmed by a DATA_AVAILABLE with 'count' 0.</description>
       <field type="uint8_t" name="target_system">System ID</field>
       <field type="uint8_t" name="target_component">Component ID</field>
       <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
       <field type="uint32_t" name="count">Number of items available or number of items that shall be received</field>
     </message>
     <message id="224" name="DATA_LIST">
-      <description>WIP: Request a list of stored data items. If 'end' is set to 0xffffffff the receiving system will inform with DATA_AVAILABLE the number of available items. If 'end' is set to a value below 0xffffffff but above or equal 'start' the receiving system will begin streaming the range of items requested. If the range cannot be machted with available data the receiving system shall reply with DATA_AVAILABLE indicating the current count.</description>
+      <description>WIP: Request a list of stored data items. If 'end' is set to 0xffffffff the receiving system will inform with DATA_AVAILABLE the number of available items. If 'end' is set to a value below 0xffffffff but above or equal 'start' the receiving system will begin streaming the range of items requested. If the range cannot be machted with available data the receiving system shall reply with DATA_AVAILABLE indicating the current count.
+
+        The items sent by the listing system will match the message defined by DATA_ITEM_TYPE. Each DATA_ITEM_TYPE message is required to have a uint32_t ID field called data_id uniquely identifying the item within the list.</description>
       <field type="uint8_t" name="target_system">System ID</field>
       <field type="uint8_t" name="target_component">Component ID</field>
       <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
