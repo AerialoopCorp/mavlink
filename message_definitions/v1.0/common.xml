@@ -810,7 +810,7 @@
         <description>0x80000 2nd 3D magnetometer</description>
       </entry>
       <entry value="1048576" name="MAV_SYS_STATUS_GEOFENCE">
-        <description>0x100000 geofence</description>
+        <description>0x100000 DEPRECATED: Use EXTENDED_HUD.failures == MAV_FAILURE_GEOFENCE</description>
       </entry>
       <entry value="2097152" name="MAV_SYS_STATUS_AHRS">
         <description>0x200000 AHRS subsystem health</description>
@@ -822,12 +822,13 @@
         <description>0x800000 Motors are reversed</description>
       </entry>
       <entry value="16777216" name="MAV_SYS_STATUS_LOGGING">
-        <description>0x1000000 Logging</description>
+        <description>0x1000000 DEPRECATED: Use EXTENDED_HUD.logging_state</description>
       </entry>
       <entry value="33554432" name="MAV_SYS_STATUS_SENSOR_BATTERY">
         <description>0x2000000 Battery</description>
       </entry>
-      <entry value="67108864" name="MAV_SYS_STATUS_STORAGE">
+      <!-- FIXME: These following are now deprecated to comply with official standard: -->
+      <!-- <entry value="67108864" name="MAV_SYS_STATUS_STORAGE">
         <description>0x4000000 Onboard storage health</description>
       </entry>
       <entry value="134217728" name="MAV_SYS_STATUS_GYRO_CONSISTENT">
@@ -841,13 +842,8 @@
       </entry>
       <entry value="1073741824" name="MAV_SYS_STATUS_AVIONICS_POWER">
         <description>0x40000000 Avionics power ok</description>
-      </entry>
-      <!-- FIXME: This is used but commented because the Java generator can't handle the number (needs a datatype change) -->
-      <!-- <entry value="2147483648" name="MAV_SYS_STATUS_SAFETY">
-        <description>0x80000000 Safety</description>
       </entry> -->
-      <!-- From common.xml: -->
-      <!-- <entry value="67108864" name="MAV_SYS_STATUS_SENSOR_PROXIMITY">
+      <entry value="67108864" name="MAV_SYS_STATUS_SENSOR_PROXIMITY">
         <description>0x4000000 Proximity</description>
       </entry>
       <entry value="134217728" name="MAV_SYS_STATUS_SENSOR_SATCOM">
@@ -858,7 +854,38 @@
       </entry>
       <entry value="536870912" name="MAV_SYS_STATUS_OBSTACLE_AVOIDANCE">
         <description>0x20000000 Avoidance/collision prevention</description>
+      </entry>
+      <!-- DEPRECATED: Use EXTENDED_HUD.safety_state. This was used but commented because the Java generator can't handle the number (needs a datatype change) -->
+      <!-- <entry value="2147483648" name="MAV_SYS_STATUS_SAFETY">
+        <description>0x80000000 Safety</description>
       </entry> -->
+    </enum>
+    <enum name="MAV_SYS_STATUS_SENSOR_E1">
+      <description>These encode the sensors whose status is sent as part of the SYS_STATUS message in field errors_count1.</description>
+      <entry value="1" name="MAV_SYS_STATUS_E1_GYRO_CONSISTENT">
+        <description>0x1 Gyros are consistent</description>
+      </entry>
+      <entry value="2" name="MAV_SYS_STATUS_E1_ACCEL_CONSISTENT">
+        <description>0x2 Accels are consistent</description>
+      </entry>
+      <entry value="4" name="MAV_SYS_STATUS_E1_MAG_CONSISTENT">
+        <description>0x4 Mags are consistent</description>
+      </entry>
+      <entry value="8" name="MAV_SYS_STATUS_E1_AVIONICS_POWER">
+        <description>0x8 Avionics power ok</description>
+      </entry>
+      <entry value="16" name="MAV_SYS_STATUS_E1_STORAGE">
+        <description>0x10 Onboard storage health</description>
+      </entry>
+      <entry value="32" name="MAV_SYS_STATUS_E1_BGPS">
+        <description>0x20 Blended GPS health</description>
+      </entry>
+      <entry value="64" name="MAV_SYS_STATUS_E1_COMPANION">
+        <description>0x40 Companion computer operational</description>
+      </entry>
+      <entry value="128" name="MAV_SYS_STATUS_E1_ADSB">
+        <description>0x80 ADSB transponder operational</description>
+      </entry>
     </enum>
     <enum name="MAV_FAILURE">
       <description>These encode the high-level failures that might occurr</description>
@@ -904,9 +931,12 @@
       <entry value="8192" name="MAV_FAILURE_MISSION_INVALID">
         <description>The currently uloaded mission failed feasibility checks</description>
       </entry>
+      <entry value="16384" name="MAV_FAILURE_GEOFENCE">
+        <description>Vehicle is in geofence violation</description>
+      </entry>
     </enum>
     <enum name="MAV_CONTROL_MODE">
-      <description>Control mode flags</description>
+      <description>[WIP] Control mode flags</description>
       <entry value="1" name="MAV_CONTROL_MODE_PREFLIGHT">
         <description>Pre-flight check control mode</description>
       </entry>
@@ -921,7 +951,7 @@
       </entry>
     </enum>
     <enum name="MAV_PROCESS">
-      <description>Specific processes currently running which should normally not be interrupted</description>
+      <description>[WIP] Specific processes currently running which should normally not be interrupted</description>
       <entry value="1" name="MAV_PROCESS_STORE_PARAMS">
         <description>Parameters are being stored</description>
       </entry>
@@ -4453,6 +4483,9 @@
         <description>Put vehicle into trim mode where the main actuator
           controls (0 to 4 on group 0 and 1) will output direct manual control and additional actuator controls will behave according to the vehicle type.</description>
       </entry>
+      <entry value="4" name="RUN_PREFLIGHT_CHECK">
+        <description>Trigger a fresh run of the internal preflight checks updating sensor states.</description>
+      </entry>
     </enum>
     <enum name="DATA_ITEM_TYPE">
       <description>Data item types for generic data transfer. The enum entry names correspond to the MAVLink message for transferring the requested data items. Each DATA_ITEM_TYPE message is required to have a uint32_t ID field called data_id uniquely identifying the item within the list.</description>
@@ -4509,7 +4542,7 @@
       <field type="int8_t" name="battery_remaining" units="%">Battery energy remaining, -1: Battery remaining energy not sent by autopilot</field>
       <field type="uint16_t" name="drop_rate_comm" units="c%">Communication drop rate, (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)</field>
       <field type="uint16_t" name="errors_comm">Communication errors (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)</field>
-      <field type="uint16_t" name="errors_count1">Autopilot-specific errors</field>
+      <field type="uint16_t" name="errors_count1">AirRails custom bit field for additional sensor health states as in onboard_control_sensors_health, see MAV_SYS_STATUS_SENSOR_E1.</field>
       <field type="uint16_t" name="errors_count2">Autopilot-specific errors</field>
       <field type="uint16_t" name="errors_count3">Autopilot-specific errors</field>
       <field type="uint16_t" name="errors_count4">Autopilot-specific errors</field>
@@ -5983,9 +6016,12 @@
       <field type="uint32_t" name="failures" enum="MAV_FAILURE">See MAV_FAILURE</field>
       <field type="uint32_t" name="control_mode" enum="MAV_CONTROL_MODE">Autopilot specific control mode flags.</field>
       <field type="uint16_t" name="running_processes" enum="MAV_PROCESS">Currently running processes.</field>
-      <field type="uint32_t" name="log_time_remaining">Remaining amount of seconds for flight logging until storage is full.</field>
+      <field type="uint32_t" name="log_time_remaining">Estimation of remaining amount of seconds for flight logging until storage is full.</field>
       <field type="int16_t" name="temperature">Autopilot temperature (centi-degrees C).</field>
       <field type="int16_t" name="temperature_air">Air temperature (centi-degrees C) from airspeed sensor.</field>
+      <extensions/>
+      <field type="uint8_t" name="logging_state">bit 0: logging running.</field>
+      <field type="uint8_t" name="safety_state">bit 0: safety switch available, 1: safety enabled.</field>
     </message>
     <message id="228" name="MISSION_CHECK">
       <description>This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of MISSIONs.</description>
