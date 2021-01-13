@@ -4488,7 +4488,7 @@
       </entry>
     </enum>
     <enum name="DATA_ITEM_TYPE">
-      <description>Data item types for generic data transfer. The enum entry names correspond to the MAVLink message for transferring the requested data items. Each DATA_ITEM_TYPE message is required to have a uint32_t ID field called data_id uniquely identifying the item within the list.</description>
+      <description>Data item types for generic data transfer. The enum entry names correspond to the MAVLink messages for transferring the requested data items. These message are required to have a uint32_t ID field called data_id uniquely identifying each item for that type.</description>
       <entry value="0" name="CAMERA_IMAGE_CAPTURED_DATA">
         <description/>
       </entry>
@@ -5977,9 +5977,9 @@
       <field type="uint32_t" name="count">Number of items available or number of items that shall be received</field>
     </message>
     <message id="224" name="DATA_LIST">
-      <description>WIP: Request a list of stored data items. If 'end' is set to 0xffffffff the receiving system will inform with DATA_AVAILABLE the number of available items. If 'end' is set to a value below 0xffffffff but above or equal 'start' the receiving system will begin streaming the range of items requested. If the range cannot be machted with available data the receiving system shall reply with DATA_AVAILABLE indicating the current count.
+      <description>WIP: Request a list of stored data items. If 'end' is set to 0xffffffff the receiving system will inform the requester with DATA_AVAILABLE about the number of available items. If 'end' is set to a value below 0xffffffff but above or equal 'start' the receiving system will begin streaming the range of items requested. If the range cannot be machted with available data the receiving system shall reply with DATA_AVAILABLE indicating the current count.
 
-        The items sent by the listing system will match the message defined by DATA_ITEM_TYPE. Each DATA_ITEM_TYPE message is required to have a uint32_t ID field called data_id uniquely identifying the item within the list.</description>
+        The items sent back by the receiving system will be in the form of the MAVLink message defined by DATA_ITEM_TYPE. This message is required to have a uint32_t ID field called data_id uniquely identifying the item within the list.</description>
       <field type="uint8_t" name="target_system">System ID</field>
       <field type="uint8_t" name="target_component">Component ID</field>
       <field type="uint8_t" name="item_type">Type of data items, see enum DATA_ITEM_TYPE</field>
