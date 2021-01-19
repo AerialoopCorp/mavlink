@@ -2689,7 +2689,14 @@
         <param index="1">0 = disable, 1 = enable</param>
       </entry>
       <entry value="40200" name="MAV_CMD_GET_GPS_DEVICE_INFO">
+        <wip/>
         <description>Request GPS device information</description>
+      </entry>
+      <entry value="40201" name="MAV_CMD_RESTART_GPS">
+        <wip/>
+        <description>Command the GPS device to restart</description>
+        <param index="1">0 = hot, 1 = warm, 2 = cold restart</param>
+        <param index="2">Instance number 1 to x, 0 for all</param>
       </entry>
       <!-- AirRails internal commands starting with 50000 -->
     </enum>
@@ -6907,6 +6914,7 @@
       <field type="int32_t" name="b_lon">B longitude in degrees * 10^7</field>
     </message>
     <message id="40200" name="GPS_DEVICE_INFO">
+      <wip/>
       <description>Status information for GPS devices.</description>
       <field type="uint16_t" name="gps_type" enum="GPS_DEVICE_TYPE">GPS device type</field>
       <field type="uint8_t" name="gps_num">GPS device number on system, usually 1 or 2</field>
