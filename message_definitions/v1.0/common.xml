@@ -2700,9 +2700,11 @@
       <!-- AirRails custom commands -->
       <entry value="40000" name="MAV_CMD_PREFLIGHT_ACTUATOR_CHECK">
         <description>This command is used to check actuator controls in preflight.</description>
-        <param index="1">Requested actuator check mode, see PREFLIGHT_ACTUATOR_CHECK_REQUEST</param>
-        <param index="2">Actuator command. 0 for roll, 1 for pitch, 2 for yaw. Channels will be set for actuator groups 0 and 1 if the are not motor channels.</param>
-        <param index="3">Actuator channel value to set (between -1 and 1)</param>
+        <param index="1">Requested actuator check mode, see PREFLIGHT_ACTUATOR_CHECK_REQUEST. Depending on which mode is chosen different param fields are to be used.</param>
+        <param index="2">DEPRECATED: Use PREFLIGHT_ACTUATOR_CHECK_CONTROL_SURFACES in param5 that allows to specify multiple axis at the same time. Actuator command. 0 for roll, 1 for pitch, 2 for yaw. Channels will be set for actuator groups 0 and 1 if the are not motor channels.</param>
+        <param index="3">Actuator channel value to set (between -1 and 1) for CHECK_CONTROL_SURFACES mode.</param>
+        <param index="5">Bitflags to speficy PREFLIGHT_ACTUATOR_ARMED_CHECK_AXIS, PREFLIGHT_ACTUATOR_CHECK_CONTROL_SURFACES</param>
+        <param index="6">Bitflags to specify PREFLIGHT_ACTUATOR_ARMED_CHECK_FUNCTION</param>
       </entry>
       <entry value="40100" name="MAV_CMD_SET_AB_ALTITUDE">
         <description>Set the current AB altitude to follow.</description>
@@ -4485,6 +4487,51 @@
       </entry>
       <entry value="4" name="RUN_PREFLIGHT_CHECK">
         <description>Trigger a fresh run of the internal preflight checks updating sensor states.</description>
+      </entry>
+      <entry value="5" name="ARMED_CHECK">
+        <description>Put vehicle into armed check mode and allow to set certain options for bench testing.</description>
+      </entry>
+    </enum>
+    <enum name="PREFLIGHT_ACTUATOR_CHECK_CONTROL_SURFACES">
+      <description/>
+      <entry value="0" name="CHECK_CONTROL_SURFACES_ROLL">
+        <description/>
+      </entry>
+      <entry value="1" name="CHECK_CONTROL_SURFACES_PITCH">
+        <description/>
+      </entry>
+      <entry value="2" name="CHECK_CONTROL_SURFACES_YAW">
+        <description/>
+      </entry>
+    </enum>
+    <enum name="PREFLIGHT_ACTUATOR_ARMED_CHECK_AXIS">
+      <description/>
+      <entry value="0" name="ARMED_CHECK_DISABLE_ROLL_I">
+        <description/>
+      </entry>
+      <entry value="1" name="ARMED_CHECK_DISABLE_PITCH_I">
+        <description/>
+      </entry>
+      <entry value="2" name="ARMED_CHECK_DISABLE_YAW_I">
+        <description/>
+      </entry>
+      <entry value="4" name="ARMED_CHECK_DISABLE_ROLL_R">
+        <description/>
+      </entry>
+      <entry value="8" name="ARMED_CHECK_DISABLE_PITCH_R">
+        <description/>
+      </entry>
+      <entry value="16" name="ARMED_CHECK_DISABLE_YAW_R">
+        <description/>
+      </entry>
+    </enum>
+    <enum name="PREFLIGHT_ACTUATOR_ARMED_CHECK_FUNCTION">
+      <description/>
+      <entry value="0" name="ARMED_CHECK_DISABLE_PERM_STAB">
+        <description/>
+      </entry>
+      <entry value="1" name="ARMED_CHECK_DISABLE_VTOL_SAFETY">
+        <description/>
       </entry>
     </enum>
     <enum name="DATA_ITEM_TYPE">
