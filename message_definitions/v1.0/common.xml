@@ -886,6 +886,12 @@
       <entry value="128" name="MAV_SYS_STATUS_E1_ADSB">
         <description>0x80 ADSB transponder operational</description>
       </entry>
+      <entry value="256" name="MAV_SYS_STATUS_E1_GENERATOR">
+        <description>0x100 Power generator health</description>
+      </entry>
+      <entry value="512" name="MAV_SYS_STATUS_E1_RC_CALIBRATION">
+        <description>0x200 RC calibration validity</description>
+      </entry>
     </enum>
     <enum name="MAV_FAILURE">
       <description>These encode the high-level failures that might occurr</description>
