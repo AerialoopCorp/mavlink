@@ -7299,6 +7299,32 @@
       <field type="uint8_t" name="gps_num">GPS device number on system, usually 1 or 2</field>
       <field type="uint8_t[250]" name="data">GPS data</field>
     </message>
+    <message id="40300" name="HIL_SENSOR_INJECTION">
+      <description>Message uesd to inject sensor data for HIL testing.</description>
+      <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
+      <field type="uint8_t" name="valid">Bit field specifying which sensors are updated</field>
+      <field type="uint8_t" name="sensor_id">For which sensor (typically 0 to 3) this data should be applied. Set to UINT8_MAX to apply the same data for all sensors.</field>
+      <field type="float[3]" name="accel_x" invalid="[NaN]">Accel X polynominal</field>
+      <field type="float[3]" name="accel_y" invalid="[NaN]">Accel Y polynominal</field>
+      <field type="float[3]" name="accel_z" invalid="[NaN]">Accel Z polynominal</field>
+      <field type="float[3]" name="gyro_x" invalid="[NaN]">Gyro X polynominal</field>
+      <field type="float[3]" name="gyro_y" invalid="[NaN]">Gyro Y polynominal</field>
+      <field type="float[3]" name="gyro_z" invalid="[NaN]">Gyro Z polynominal</field>
+      <field type="float[3]" name="mag_x" invalid="[NaN]">Mag X polynominal</field>
+      <field type="float[3]" name="mag_y" invalid="[NaN]">Mag Y polynominal</field>
+      <field type="float[3]" name="mag_z" invalid="[NaN]">Mag Z polynominal</field>
+      <field type="float[3]" name="imu_temp" invalid="[NaN]">IMU temp polynominal</field>
+      <field type="float[3]" name="diff_pressure" invalid="[NaN]">Differential pressure polynominal</field>
+      <field type="float[3]" name="diff_air_temp" invalid="[NaN]">Air temperature polynominal from differential pressure sensors</field>
+      <field type="float[3]" name="abs_pressure" invalid="[NaN]">Absolute pressure polynominal</field>
+      <field type="float[3]" name="abs_air_temp" invalid="[NaN]">Air temperature polynominal from baro</field>
+      <field type="float[3]" name="gps_lat" invalid="[NaN]">GPS latitude polynominal</field>
+      <field type="float[3]" name="gps_lon" invalid="[NaN]">GPS longitude polynominal</field>
+      <field type="float[3]" name="gps_alt" invalid="[NaN]">GPS altitude polynominal</field>
+      <field type="float[3]" name="gps_vn" invalid="[NaN]">GPS velocity north polynominal</field>
+      <field type="float[3]" name="gps_ve" invalid="[NaN]">GPS velocity east polynominal</field>
+      <field type="float[3]" name="gps_vd" invalid="[NaN]">GPS velocity down polynominal</field>
+    </message>
     <!-- AirRails: End v2 custom messages -->
   </messages>
 </mavlink>
