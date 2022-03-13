@@ -892,6 +892,15 @@
       <entry value="512" name="MAV_SYS_STATUS_E1_RC_CALIBRATION">
         <description>0x200 RC calibration validity</description>
       </entry>
+      <entry value="1024" name="MAV_SYS_STATUS_E1_RC_PREC_LAND">
+        <description>0x400 Precision landing system</description>
+      </entry>
+      <entry value="2048" name="MAV_SYS_STATUS_E1_RC_NTRIP">
+        <description>0x800 NTRIP module</description>
+      </entry>
+      <entry value="4096" name="MAV_SYS_STATUS_E1_BATTERY2">
+        <description>0x1000 Battery 2</description>
+      </entry>
     </enum>
     <enum name="MAV_FAILURE">
       <description>These encode the high-level failures that might occurr</description>
@@ -917,10 +926,10 @@
         <description>Airspeed not available</description>
       </entry>
       <entry value="128" name="MAV_FAILURE_BATTERY_LOW">
-        <description>Airspeed not available</description>
+        <description>Battery 1 low</description>
       </entry>
       <entry value="256" name="MAV_FAILURE_BATTERY_CRITICAL">
-        <description>Airspeed not available</description>
+        <description>Battery 1 critical</description>
       </entry>
       <entry value="512" name="MAV_FAILURE_TERRAIN">
         <description>Terrain estimate not available</description>
@@ -939,6 +948,12 @@
       </entry>
       <entry value="16384" name="MAV_FAILURE_GEOFENCE">
         <description>Vehicle is in geofence violation</description>
+      </entry>
+      <entry value="32768" name="MAV_FAILURE_BATTERY2_LOW">
+        <description>Battery 2 low</description>
+      </entry>
+      <entry value="65536" name="MAV_FAILURE_BATTERY2_CRITICAL">
+        <description>Battery 2 critical</description>
       </entry>
     </enum>
     <enum name="MAV_CONTROL_MODE">
