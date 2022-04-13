@@ -955,6 +955,9 @@
       <entry value="65536" name="MAV_FAILURE_BATTERY2_CRITICAL">
         <description>Battery 2 critical</description>
       </entry>
+      <entry value="131072" name="FAILURE_STATUS_CORRUPT">
+        <description>Status storage is corrupted. Most likely a CRC check failed while loading data.</description>
+      </entry>
     </enum>
     <enum name="MAV_CONTROL_MODE">
       <description>[WIP] Control mode flags</description>
