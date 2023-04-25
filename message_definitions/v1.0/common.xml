@@ -333,6 +333,9 @@
       <entry value="131072" name="FAILURE_STATUS_CORRUPT">
         <description>Status storage is corrupted. Most likely a CRC check failed while loading data.</description>
       </entry>
+      <entry value="262144" name="FAILURE_LOCATION_INCONSISTENCY">
+        <description>The configured location data doesn't match the estimated data. That could point to a sensor data or setup error.</description>
+      </entry>
     </enum>
     <enum name="MAV_CONTROL_MODE">
       <description>[WIP] Control mode flags</description>
