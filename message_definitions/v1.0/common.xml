@@ -285,6 +285,18 @@
       <entry value="4096" name="MAV_SYS_STATUS_E1_BATTERY2">
         <description>0x1000 Battery 2</description>
       </entry>
+      <entry value="8192" name="MAV_SYS_STATUS_E1_DIFFPRESSURE2">
+        <description>0x2000 Differential pressure 2</description>
+      </entry>
+      <entry value="16384" name="MAV_SYS_STATUS_E1_RAIL_POWER">
+        <description>0x4000 Rail power</description>
+      </entry>
+      <entry value="32768" name="MAV_SYS_STATUS_E1_LOG_STREAM">
+        <description>0x8000 Log stream</description>
+      </entry>
+      <entry value="65536" name="MAV_SYS_STATUS_E1_REMOTE_ID">
+        <description>0x10000 Remote ID</description>
+      </entry>
     </enum>
     <enum name="MAV_FAILURE">
       <description>These encode the high-level failures that might occurr</description>
@@ -5118,6 +5130,18 @@
         <description/>
       </entry>
     </enum>
+    <enum name="SIGNED_INSTRUCTION_TYPE">
+      <description>.</description>
+      <entry value="0" name="UNLOCK">
+        <description/>
+      </entry>
+      <entry value="1" name="SET_MAVLINK_KEY">
+        <description/>
+      </entry>
+      <entry value="2" name="SET_SERIAL_NUMBER">
+        <description/>
+      </entry>
+    </enum>
     <enum name="FAILURE_UNIT">
       <!-- This enum is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
       <description>List of possible units where failures can be injected.</description>
@@ -8609,6 +8633,28 @@
       <field type="float[3]" name="gps_vn" invalid="[NaN]">GPS velocity north polynominal</field>
       <field type="float[3]" name="gps_ve" invalid="[NaN]">GPS velocity east polynominal</field>
       <field type="float[3]" name="gps_vd" invalid="[NaN]">GPS velocity down polynominal</field>
+    </message>
+    <message id="40400" name="SIGNED_INSTRUCTION">
+      <description>Instruction to perform a security critical action that is signed and needs to be validated with the available public key(s).
+
+        Instruction data and signature are provided in the data field, binary, in the following order: uint16 instruction (SIGNED_INSTRUCTION_TYPE), uint32 unix timestamp in seconds, uint16 instruction data length (can be 0), instruction data (if applicable), uint16 signature length, signature (DER).
+
+        The signature is formed over the full data part up to (excluding) the signature length field.
+
+        Data can be split across multiple messages. The total size of the data to be transmitted needs to be specified in length, and the index fields needs to note the current block number.
+      </description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="uint16_t" name="length">Total length of data to be transmitted.</field>
+      <field type="uint8_t" name="index">Current data block index, starting at 0.</field>
+      <field type="uint8_t[250]" name="data">Data block</field>
+    </message>
+    <message id="40401" name="SIGNED_INSTRUCTION_ACK">
+      <description>Acknowledge for a received SIGNED_INSTRUCTION block. The ACK for the last block will also tell if the instruction could be verified.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="uint8_t" name="index">Data block index being acknowledged, starting at 0.</field>
+      <field type="uint8_t" name="valid">Set to 1 on the final block ACK if the instruction was verified successfully.</field>
     </message>
     <!-- AirRails: End v2 custom messages -->
   </messages>
